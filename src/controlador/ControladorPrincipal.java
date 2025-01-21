@@ -1,6 +1,6 @@
 package controlador;
 
-import modelo.modeloDAO.AlquilerDAO;
+
 import modelo.modeloDAO.CategoriaDAO;
 import modelo.modeloDAO.ClienteDAO;
 import modelo.modeloDAO.DevolucionDAO;
@@ -13,23 +13,22 @@ import vista.InterfazPrincipal;
 
 public class ControladorPrincipal {
 
-	//OBJETOS MODELO
-    private AlquilerDAO alquilerDAO;
-    private CategoriaDAO categoriaDAO;
-    private ClienteDAO clienteDAO;
-    private DevolucionDAO devolucionDAO;
-    private GeneroDAO generoDAO;
-    private GestorDAO gestorDAO;
-    private MultaDAO multaDAO;
-    private ProductoDAO productoDAO;
-    private Unidad_ProductoDAO unidadProductoDAO;
-
-
-	//OBJETOS VISTA
-    private InterfazPrincipal interfazPrincipal;
-
     public static void main(String[] args) {
         System.out.println("Hola, mundo!");
+
+        // OBJETOS MODELO
+       
+        CategoriaDAO categoriaDAO = new CategoriaDAO();
+        ClienteDAO clienteDAO = new ClienteDAO();
+        DevolucionDAO devolucionDAO = new DevolucionDAO();
+        GeneroDAO generoDAO = new GeneroDAO();
+        GestorDAO gestorDAO = new GestorDAO();
+        MultaDAO multaDAO = new MultaDAO();
+        ProductoDAO productoDAO = new ProductoDAO();
+        Unidad_ProductoDAO unidadProductoDAO = new Unidad_ProductoDAO();
+
+        // OBJETOS VISTA
+        InterfazPrincipal interfazPrincipal = new InterfazPrincipal();
     }
 
 }
