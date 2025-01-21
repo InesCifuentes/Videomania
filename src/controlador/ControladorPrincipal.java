@@ -29,7 +29,7 @@ public class ControladorPrincipal {
     private InterfazPrincipal interfazPrincipal;
 
     public static void main(String[] args) {
-        System.out.println("Todo correcto!");
+        System.out.println("Hola, mundo!");
     }
 
 }
