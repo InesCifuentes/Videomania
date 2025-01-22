@@ -62,6 +62,10 @@ public class InterfazPrincipal extends JFrame {
 
         // Establecer la ventana visible
         setVisible(true);
+
+         // Establecer el icono de la ventana
+        ImageIcon icon = new ImageIcon(getClass().getResource("../imagenes/logo.png"));
+        setIconImage(icon.getImage());
     }
 
 }
