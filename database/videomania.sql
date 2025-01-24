@@ -26,6 +26,7 @@ CREATE TABLE Usuario (
 
 CREATE TABLE Gestor (
     Nombre VARCHAR(50) PRIMARY KEY
+    FOREIGN KEY (Nombre) REFERENCES Usuario(Nombre)
 );
 
 CREATE TABLE Cliente (
