@@ -44,7 +44,7 @@ public class InterfazCuenta extends JFrame {
         gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
         getContentPane().setLayout(gridBagLayout);
-        
+
         JButton btnTengoCuenta = new JButton("Tengo Cuenta");
         btnTengoCuenta.setBackground(new Color(0, 128, 128));
         btnTengoCuenta.setFont(new Font("Dialog", Font.BOLD, 20));
@@ -69,6 +69,15 @@ public class InterfazCuenta extends JFrame {
         btnCrearCuenta.setForeground(Color.BLACK);
         btnCrearCuenta.setBackground(new Color(0, 128, 128));
         btnCrearCuenta.setFont(new Font("Dialog", Font.BOLD, 20));
+        
+        btnCrearCuenta.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                InterfazCrearCli interfazCrear = new InterfazCrearCli();
+                interfazCrear.setVisible(true);
+                dispose(); // Cierra la ventana actual
+            }
+        });
+        
         GridBagConstraints gbc_btnCrearCuenta = new GridBagConstraints();
         gbc_btnCrearCuenta.fill = GridBagConstraints.BOTH;
         gbc_btnCrearCuenta.insets = new Insets(0, 0, 5, 5);

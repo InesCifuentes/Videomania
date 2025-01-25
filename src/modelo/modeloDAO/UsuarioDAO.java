@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import modelo.Conexion;
+import modelo.modeloVO.ClienteVO;
+import modelo.modeloVO.UsuarioVO;
 
 public class UsuarioDAO {
 
@@ -40,5 +42,11 @@ public class UsuarioDAO {
             return false;
         }
 
+    }
+
+    public void agregarUsuario(ClienteVO nuevoUsuario, String tipousuario) {
+        if(tipousuario.equals("Cliente")) {
+            new ClienteDAO().insertarCliente(nuevoUsuario);
+        }
     }
 }
