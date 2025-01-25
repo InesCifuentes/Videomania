@@ -56,6 +56,25 @@ public class InterfazInicioCli extends JFrame {
         gridBagLayout.columnWeights = new double[]{0.0, 1.0};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         getContentPane().setLayout(gridBagLayout);
+
+        JButton btnVolver = new JButton("< Volver");
+        btnVolver.setBackground(new Color(0, 128, 128));
+        btnVolver.setForeground(Color.BLACK);
+        btnVolver.setFont(new Font("Dialog", Font.BOLD, 17));
+        
+        btnVolver.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		InterfazCuenta interfazCuenta = new InterfazCuenta();
+                interfazCuenta.setVisible(true);
+                dispose(); // Cierra la ventana actual
+        	}
+        });
+        
+        GridBagConstraints gbc_btnVolver = new GridBagConstraints();
+        gbc_btnVolver.insets = new Insets(0, 0, 5, 5);
+        gbc_btnVolver.gridx = 0;
+        gbc_btnVolver.gridy = 0;
+        getContentPane().add(btnVolver, gbc_btnVolver);
         
         JLabel lblUsuario = new JLabel("Usuario");
         lblUsuario.setForeground(Color.BLACK);
@@ -122,41 +141,38 @@ public class InterfazInicioCli extends JFrame {
         btnIniciarSesion.setFont(new Font("Dialog", Font.BOLD, 20));
 
         btnIniciarSesion.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    String usuario = textField.getText();
-                    String password = new String(passwordField.getPassword());
-                    ControladorInicioCli controlador = new ControladorInicioCli();
-                    boolean registrado = controlador.verificarUsuario(usuario);
-                    if (!registrado) {
-                        // Usuario no registrado
-                        lblErrorUsuario.setVisible(true);
+            public void actionPerformed(ActionEvent e) {
+                String usuario = textField.getText();
+                String password = new String(passwordField.getPassword());
+                ControladorInicioCli controlador = new ControladorInicioCli();
+                boolean registrado = controlador.verificarUsuario(usuario);
+                if (!registrado) {
+                    // Usuario no registrado
+                    lblErrorUsuario.setVisible(true);
+                } else {
+                    boolean correcto = controlador.verificarPas(usuario, password);
+                    if (correcto) {
+                        // Usuario registrado
+                        lblErrorUsuario.setVisible(false);
+                        lblErrorPas.setVisible(false);
+                                
+                        //SE CREA OTRA VENTANA
+
                     } else {
-                        boolean correcto = controlador.verificarPas(usuario, password);
-                        if (correcto) {
-                                // Usuario registrado
-                                lblErrorUsuario.setVisible(false);
-                                lblErrorPas.setVisible(false);
+                        // Contraseña incorrecta
+                        lblErrorPas.setVisible(true);
                                 
-                                //SE CREA OTRA VENTANA
-
-                        } else {
-                                // Contraseña incorrecta
-                                lblErrorPas.setVisible(true);
-                                
-                        }
                     }
-
                 }
-
-            });
+            }
+        });
         
         GridBagConstraints gbc_btnIniciarSesion = new GridBagConstraints();
         gbc_btnIniciarSesion.insets = new Insets(0, 0, 0, 5);
         gbc_btnIniciarSesion.gridx = 1;
         gbc_btnIniciarSesion.gridy = 6;
         getContentPane().add(btnIniciarSesion, gbc_btnIniciarSesion);
-        
-        
+           
      // Establecer el icono de la ventana
         ImageIcon icon = new ImageIcon(getClass().getResource("../imagenes/logo.png"));
         setIconImage(icon.getImage());

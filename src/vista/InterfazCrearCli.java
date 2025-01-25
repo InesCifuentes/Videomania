@@ -59,6 +59,24 @@ public class InterfazCrearCli extends JFrame {
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         getContentPane().setLayout(gridBagLayout);
         
+        JButton btnVolver = new JButton("< Volver");
+        btnVolver.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		InterfazCuenta interfazCuenta = new InterfazCuenta();
+                interfazCuenta.setVisible(true);
+                dispose(); // Cierra la ventana actual
+        	}
+        });
+
+        btnVolver.setBackground(new Color(0, 128, 128));
+        btnVolver.setForeground(Color.BLACK);
+        btnVolver.setFont(new Font("Dialog", Font.BOLD, 17));
+        GridBagConstraints gbc_btnVolver = new GridBagConstraints();
+        gbc_btnVolver.insets = new Insets(0, 0, 5, 5);
+        gbc_btnVolver.gridx = 0;
+        gbc_btnVolver.gridy = 0;
+        getContentPane().add(btnVolver, gbc_btnVolver);
+        
         JLabel lblUsuario = new JLabel("Usuario");
         lblUsuario.setFont(new Font("Dialog", Font.BOLD, 25));
         lblUsuario.setForeground(Color.BLACK);
@@ -186,43 +204,42 @@ public class InterfazCrearCli extends JFrame {
                 String password2 = new String(passwordField_1.getPassword());
                 ControladorCrearCli controlador = new ControladorCrearCli();
                 boolean registrado = controlador.verificarUsuario(usuario);
-                System.out.println("Valor de edad: " + edad); // Línea de depuración
+                
+                if (!registrado) {
+                    // Usuario no registrado, el usuario se puede registrar
+                    lblErrorUsuario.setVisible(false);
+                    lblErrorEdad.setVisible(false);
+                    lblErrorPas.setVisible(false);
 
-                    if (!registrado) {
-                        // Usuario no registrado, el usuario se puede registrar
-                        lblErrorUsuario.setVisible(false);
+                    if(edad.matches("[0-9]+")) {
                         lblErrorEdad.setVisible(false);
-                        lblErrorPas.setVisible(false);
-
-                        if(edad.matches("[0-9]+")) {
-                            lblErrorEdad.setVisible(false);
-                            if (password.equals(password2)) {
-                                // Contraseñas coinciden
-                                lblErrorPas.setVisible(false);
-                                controlador.crearUsuario(usuario, password, edad);
-                                
-                                //SE CREA OTRA VENTANA
-                            } else {
-                                // Contraseñas no coinciden
-                                lblErrorPas.setVisible(true);
-                            }
-                            
-                        } else {
-                            //La edad no es un número
-                            lblErrorEdad.setVisible(true);
+                        if (password.equals(password2)) {
+                            // Contraseñas coinciden
                             lblErrorPas.setVisible(false);
+                            controlador.crearUsuario(usuario, password, edad);
+                                
+                            //SE CREA OTRA VENTANA
+                        } else {
+                            // Contraseñas no coinciden
+                            lblErrorPas.setVisible(true);
                         }
-                        
+                            
                     } else {
+                        //La edad no es un número
+                        lblErrorEdad.setVisible(true);
                         lblErrorPas.setVisible(false);
-                        lblErrorUsuario.setVisible(true);
                     }
-
+                        
+                } else {
+                    lblErrorPas.setVisible(false);
+                    lblErrorUsuario.setVisible(true);
                 }
 
-            });
+            }
 
-            // Establecer el icono de la ventana
+        });
+
+        // Establecer el icono de la ventana
         ImageIcon icon = new ImageIcon(getClass().getResource("../imagenes/logo.png"));
         setIconImage(icon.getImage());
 	}
