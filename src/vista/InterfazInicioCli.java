@@ -34,7 +34,7 @@ public class InterfazInicioCli extends JFrame {
 		
 		// Configura el título de la ventana
         super("Iniciar Sesión");
-        setFont(new Font("Dialog", Font.BOLD, 12));
+        setFont(new Font("Dialog", Font.BOLD, 15));
         
         // Configura la operación al cerrar la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,15 +45,24 @@ public class InterfazInicioCli extends JFrame {
         int width = (int) pantalla.getWidth();
         int height = (int) pantalla.getHeight();
         
+        Insets bordes = getInsets();
+        int top = bordes.top;
+        int bottom = bordes.bottom;
+        int left = bordes.left;
+        int right = bordes.right;
+
+        height = height - top - bottom;
+        width = width - left - right;
+        
         int partW = width / 4;
         int partH = height / 8;
         
         setSize(pantalla);
-
+        
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{partW, width-partW, partW};
-        gridBagLayout.rowHeights = new int[]{partH/2, partH/2, partH, partH/2, partH/2, 0};
-        gridBagLayout.columnWeights = new double[]{0.0, 1.0};
+        gridBagLayout.rowHeights = new int[]{(5/2*partH), partH/2, partH/2, partH, partH/2, partH/2, 0, (5/2*partH)};
+        gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         getContentPane().setLayout(gridBagLayout);
 
@@ -74,7 +83,13 @@ public class InterfazInicioCli extends JFrame {
         gbc_btnVolver.insets = new Insets(0, 0, 5, 5);
         gbc_btnVolver.gridx = 0;
         gbc_btnVolver.gridy = 0;
+        gbc_btnVolver.anchor = GridBagConstraints.NORTHWEST;
         getContentPane().add(btnVolver, gbc_btnVolver);
+        
+        lblErrorUsuario = new JLabel("No existe el nombre de usuario");
+        lblErrorUsuario.setFont(new Font("Dialog", Font.BOLD, 15));
+        lblErrorUsuario.setForeground(Color.RED);
+        lblErrorUsuario.setVisible(false);
         
         JLabel lblUsuario = new JLabel("Usuario");
         lblUsuario.setForeground(Color.BLACK);
@@ -83,7 +98,7 @@ public class InterfazInicioCli extends JFrame {
         gbc_lblUsuario.anchor = GridBagConstraints.SOUTHWEST;
         gbc_lblUsuario.insets = new Insets(0, 0, 5, 5);
         gbc_lblUsuario.gridx = 1;
-        gbc_lblUsuario.gridy = 0;
+        gbc_lblUsuario.gridy = 1;
         getContentPane().add(lblUsuario, gbc_lblUsuario);
         
         textField = new JTextField();
@@ -93,7 +108,7 @@ public class InterfazInicioCli extends JFrame {
         gbc_textField.insets = new Insets(0, 0, 5, 5);
         gbc_textField.fill = GridBagConstraints.BOTH;
         gbc_textField.gridx = 1;
-        gbc_textField.gridy = 1;
+        gbc_textField.gridy = 2;
         getContentPane().add(textField, gbc_textField);
         textField.setColumns(10);
         
@@ -104,7 +119,7 @@ public class InterfazInicioCli extends JFrame {
         gbc_lblContrasea.anchor = GridBagConstraints.SOUTHWEST;
         gbc_lblContrasea.insets = new Insets(0, 0, 5, 5);
         gbc_lblContrasea.gridx = 1;
-        gbc_lblContrasea.gridy = 2;
+        gbc_lblContrasea.gridy = 3;
         getContentPane().add(lblContrasea, gbc_lblContrasea);
         
         passwordField = new JPasswordField();
@@ -114,25 +129,22 @@ public class InterfazInicioCli extends JFrame {
         gbc_passwordField.insets = new Insets(0, 0, 5, 5);
         gbc_passwordField.fill = GridBagConstraints.BOTH;
         gbc_passwordField.gridx = 1;
-        gbc_passwordField.gridy = 3;
+        gbc_passwordField.gridy = 4;
         getContentPane().add(passwordField, gbc_passwordField);
-        
-        lblErrorUsuario = new JLabel("No existe el nombre de usuario");
-        lblErrorUsuario.setForeground(Color.RED);
-        lblErrorUsuario.setVisible(false);
         GridBagConstraints gbc_lblErrorUsuario = new GridBagConstraints();
         gbc_lblErrorUsuario.insets = new Insets(0, 0, 5, 5);
         gbc_lblErrorUsuario.gridx = 1;
-        gbc_lblErrorUsuario.gridy = 4;
+        gbc_lblErrorUsuario.gridy = 5;
         getContentPane().add(lblErrorUsuario, gbc_lblErrorUsuario);
 
         lblErrorPas = new JLabel("Contraseña incorrecta");
+        lblErrorPas.setFont(new Font("Dialog", Font.BOLD, 15));
         lblErrorPas.setForeground(Color.RED);
         lblErrorPas.setVisible(false);
         GridBagConstraints gbc_lblErrorPas = new GridBagConstraints();
         gbc_lblErrorPas.insets = new Insets(0, 0, 5, 5);
         gbc_lblErrorPas.gridx = 1;
-        gbc_lblErrorPas.gridy = 4;
+        gbc_lblErrorPas.gridy = 5;
         getContentPane().add(lblErrorPas, gbc_lblErrorPas);
 
         JButton btnIniciarSesion = new JButton("Iniciar Sesión");

@@ -47,6 +47,15 @@ public class InterfazCrearCli extends JFrame {
         int width = (int) pantalla.getWidth();
         int height = (int) pantalla.getHeight();
         
+        Insets bordes = getInsets();
+        int top = bordes.top;
+        int bottom = bordes.bottom;
+        int left = bordes.left;
+        int right = bordes.right;
+
+        height = height - top - bottom;
+        width = width - left - right;
+        
         int partW = width / 4;
         int partH = height / 8;
         
@@ -54,7 +63,7 @@ public class InterfazCrearCli extends JFrame {
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{partW, width-partW, partW};
-        gridBagLayout.rowHeights = new int[]{0, partH/4, partH/2, partH/2, partH/2, partH/2, partH/2, partH/2, partH/2, partH/2, 0};
+        gridBagLayout.rowHeights = new int[]{(2*partH-partH/2), partH/4, partH/2, partH/2, partH/2, partH/2, partH/2, partH/2, partH/2, partH/2, (2*partH-partH/2)};
         gridBagLayout.columnWeights = new double[]{0.0, 1.0};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         getContentPane().setLayout(gridBagLayout);
@@ -72,6 +81,7 @@ public class InterfazCrearCli extends JFrame {
         btnVolver.setForeground(Color.BLACK);
         btnVolver.setFont(new Font("Dialog", Font.BOLD, 17));
         GridBagConstraints gbc_btnVolver = new GridBagConstraints();
+        gbc_btnVolver.anchor = GridBagConstraints.NORTHWEST;
         gbc_btnVolver.insets = new Insets(0, 0, 5, 5);
         gbc_btnVolver.gridx = 0;
         gbc_btnVolver.gridy = 0;
