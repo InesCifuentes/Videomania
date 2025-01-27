@@ -228,7 +228,11 @@ public class InterfazCrearCli extends JFrame {
                             lblErrorPas.setVisible(false);
                             controlador.crearUsuario(usuario, password, edad);
                                 
-                            //SE CREA OTRA VENTANA
+                            //Se crea la siguiente ventana
+                            InterfazPantallaCli interfazPrincipalCli = new InterfazPantallaCli();
+                            interfazPrincipalCli.setVisible(true);
+                            dispose(); // Cierra la ventana actual
+
                         } else {
                             // Contraseñas no coinciden
                             lblErrorPas.setVisible(true);

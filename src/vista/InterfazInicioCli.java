@@ -168,7 +168,10 @@ public class InterfazInicioCli extends JFrame {
                         lblErrorUsuario.setVisible(false);
                         lblErrorPas.setVisible(false);
                                 
-                        //SE CREA OTRA VENTANA
+                        //Se crea la siguiente ventana
+                        InterfazPantallaCli interfazPrincipalCli = new InterfazPantallaCli();
+                        interfazPrincipalCli.setVisible(true);
+                        dispose(); // Cierra la ventana actual
 
                     } else {
                         // Contraseña incorrecta
