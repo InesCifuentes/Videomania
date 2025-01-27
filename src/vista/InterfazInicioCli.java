@@ -25,7 +25,7 @@ public class InterfazInicioCli extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JPasswordField passwordField;
-    private JLabel lblErrorUsuario, lblErrorPas;
+    private JLabel lblErrorUsuario, lblErrorPas, lblErrorVacio;
 	
 	/**
 	 * Create the frame.
@@ -86,11 +86,6 @@ public class InterfazInicioCli extends JFrame {
         gbc_btnVolver.anchor = GridBagConstraints.NORTHWEST;
         getContentPane().add(btnVolver, gbc_btnVolver);
         
-        lblErrorUsuario = new JLabel("No existe el nombre de usuario");
-        lblErrorUsuario.setFont(new Font("Dialog", Font.BOLD, 15));
-        lblErrorUsuario.setForeground(Color.RED);
-        lblErrorUsuario.setVisible(false);
-        
         JLabel lblUsuario = new JLabel("Usuario");
         lblUsuario.setForeground(Color.BLACK);
         lblUsuario.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -131,6 +126,21 @@ public class InterfazInicioCli extends JFrame {
         gbc_passwordField.gridx = 1;
         gbc_passwordField.gridy = 4;
         getContentPane().add(passwordField, gbc_passwordField);
+
+        lblErrorVacio = new JLabel("No puede estar ningún campo vacío");
+        lblErrorVacio.setFont(new Font("Dialog", Font.BOLD, 15));
+        lblErrorVacio.setForeground(Color.RED);
+        lblErrorVacio.setVisible(false);
+        GridBagConstraints gbc_lblErrorVacio = new GridBagConstraints();
+        gbc_lblErrorVacio.insets = new Insets(0, 0, 5, 5);
+        gbc_lblErrorVacio.gridx = 1;
+        gbc_lblErrorVacio.gridy = 5;
+        getContentPane().add(lblErrorVacio, gbc_lblErrorVacio);
+
+        lblErrorUsuario = new JLabel("No existe el nombre de usuario");
+        lblErrorUsuario.setFont(new Font("Dialog", Font.BOLD, 15));
+        lblErrorUsuario.setForeground(Color.RED);
+        lblErrorUsuario.setVisible(false);
         GridBagConstraints gbc_lblErrorUsuario = new GridBagConstraints();
         gbc_lblErrorUsuario.insets = new Insets(0, 0, 5, 5);
         gbc_lblErrorUsuario.gridx = 1;
@@ -158,9 +168,20 @@ public class InterfazInicioCli extends JFrame {
                 String password = new String(passwordField.getPassword());
                 ControladorInicioCli controlador = new ControladorInicioCli();
                 boolean registrado = controlador.verificarUsuario(usuario);
+
+                if(usuario.equals("") || password.equals("")) {
+                    // Campos vacíos
+                    lblErrorVacio.setVisible(true);
+                    lblErrorUsuario.setVisible(false);
+                    lblErrorPas.setVisible(false);
+                    return;
+                } 
+
                 if (!registrado) {
                     // Usuario no registrado
+                    lblErrorVacio.setVisible(false);
                     lblErrorUsuario.setVisible(true);
+                    lblErrorPas.setVisible(false);
                 } else {
                     boolean correcto = controlador.verificarPas(usuario, password);
                     if (correcto) {

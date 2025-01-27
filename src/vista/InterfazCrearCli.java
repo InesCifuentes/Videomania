@@ -28,7 +28,7 @@ public class InterfazCrearCli extends JFrame {
 	private JPasswordField passwordField_1;
 	private JTextField textField;
 	private JTextField textField_1;
-    private JLabel lblErrorUsuario, lblErrorPas, lblErrorEdad;
+    private JLabel lblErrorUsuario, lblErrorPas, lblErrorEdad, lblErrorVacio;
 
 	/**
 	 * Create the frame.
@@ -87,7 +87,7 @@ public class InterfazCrearCli extends JFrame {
         gbc_btnVolver.gridy = 0;
         getContentPane().add(btnVolver, gbc_btnVolver);
         
-        JLabel lblUsuario = new JLabel("Usuario");
+        JLabel lblUsuario = new JLabel("Usuario *");
         lblUsuario.setFont(new Font("Dialog", Font.BOLD, 25));
         lblUsuario.setForeground(Color.BLACK);
         GridBagConstraints gbc_lblUsuario = new GridBagConstraints();
@@ -108,7 +108,7 @@ public class InterfazCrearCli extends JFrame {
         getContentPane().add(textField_1, gbc_textField_1);
         textField_1.setColumns(10);
         
-        JLabel lblEdad = new JLabel("Edad");
+        JLabel lblEdad = new JLabel("Edad *");
         lblEdad.setForeground(Color.BLACK);
         lblEdad.setFont(new Font("Dialog", Font.BOLD, 25));
         GridBagConstraints gbc_lblEdad = new GridBagConstraints();
@@ -129,7 +129,7 @@ public class InterfazCrearCli extends JFrame {
         getContentPane().add(textField, gbc_textField);
         textField.setColumns(10);
         
-        JLabel lblContrasea = new JLabel("Contraseña");
+        JLabel lblContrasea = new JLabel("Contraseña *");
         lblContrasea.setForeground(Color.BLACK);
         lblContrasea.setFont(new Font("Dialog", Font.BOLD, 25));
         GridBagConstraints gbc_lblContrasea = new GridBagConstraints();
@@ -149,7 +149,7 @@ public class InterfazCrearCli extends JFrame {
         gbc_passwordField.gridy = 6;
         getContentPane().add(passwordField, gbc_passwordField);
         
-        JLabel lblRepetirContrasea = new JLabel("Repetir contraseña");
+        JLabel lblRepetirContrasea = new JLabel("Repetir contraseña *");
         lblRepetirContrasea.setForeground(Color.BLACK);
         lblRepetirContrasea.setFont(new Font("Dialog", Font.BOLD, 25));
         GridBagConstraints gbc_lblRepetirContrasea = new GridBagConstraints();
@@ -178,6 +178,15 @@ public class InterfazCrearCli extends JFrame {
         gbc_btnCrearCuenta.gridx = 1;
         gbc_btnCrearCuenta.gridy = 10;
         getContentPane().add(btnCrearCuenta, gbc_btnCrearCuenta);
+
+        lblErrorVacio = new JLabel("No puede haber campos vacíos");
+        lblErrorVacio.setForeground(Color.RED);
+        lblErrorVacio.setVisible(false);
+        GridBagConstraints gbc_lblErrorVacio = new GridBagConstraints();
+        gbc_lblErrorVacio.insets = new Insets(0, 0, 5, 5);
+        gbc_lblErrorVacio.gridx = 1;
+        gbc_lblErrorVacio.gridy = 9;
+        getContentPane().add(lblErrorVacio, gbc_lblErrorVacio);
             
         lblErrorUsuario = new JLabel("El nombre de usuario ya existe");
         lblErrorUsuario.setForeground(Color.RED);
@@ -214,9 +223,17 @@ public class InterfazCrearCli extends JFrame {
                 String password2 = new String(passwordField_1.getPassword());
                 ControladorCrearCli controlador = new ControladorCrearCli();
                 boolean registrado = controlador.verificarUsuario(usuario);
+                if(usuario == null || usuario.equals("") || edad == null || edad.equals("") || password == null || password.equals("") || password2 == null || password2.equals("")) {
+                    lblErrorVacio.setVisible(true);
+                    lblErrorUsuario.setVisible(false);
+                    lblErrorEdad.setVisible(false);
+                    lblErrorPas.setVisible(false);
+                    return;
+                }
                 
                 if (!registrado) {
                     // Usuario no registrado, el usuario se puede registrar
+                    lblErrorVacio.setVisible(false);
                     lblErrorUsuario.setVisible(false);
                     lblErrorEdad.setVisible(false);
                     lblErrorPas.setVisible(false);
