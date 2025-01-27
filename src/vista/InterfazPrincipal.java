@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;   // Importa ActionListener para manejar e
 import java.awt.event.ActionEvent;      // Importa ActionEvent para manejar eventos de acción
 
 public class InterfazPrincipal extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
 
     public InterfazPrincipal() {
         // Configura el título de la ventana
@@ -63,6 +65,14 @@ public class InterfazPrincipal extends JFrame {
         btnGestor.setFont(new Font("Dialog", Font.BOLD, 25));
         btnGestor.setForeground(Color.BLACK);
         btnGestor.setBackground(new Color(0, 128, 128));
+
+        btnGestor.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                InterfazInicioGes interfazInicioGes = new InterfazInicioGes();
+                interfazInicioGes.setVisible(true);
+                dispose(); // Cierra la ventana actual
+            }
+        });
         GridBagConstraints gbc_btnGestor = new GridBagConstraints();
         gbc_btnGestor.insets = new Insets(0, 0, 5, 5);
         gbc_btnGestor.fill = GridBagConstraints.BOTH;
