@@ -58,6 +58,9 @@ public class InterfazModificarCatalogo extends JFrame {
       btnVolver.setBackground(new Color(0, 128, 128));
       btnVolver.setForeground(Color.BLACK);
       btnVolver.setFont(new Font("Dialog", Font.BOLD, 17));
+      btnVolver.setPreferredSize(new Dimension(150, 50));
+      btnVolver.setMinimumSize(new Dimension(150, 50));
+      btnVolver.setMaximumSize(new Dimension(150, 50));
       GridBagConstraints gbc_btnVolver = new GridBagConstraints();
       gbc_btnVolver.anchor = GridBagConstraints.NORTHWEST;
       gbc_btnVolver.insets = new Insets(0, 0, 5, 5);
