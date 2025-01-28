@@ -177,6 +177,7 @@ public class InterfazCrearCli extends JFrame {
         btnCrearCuenta.setFont(new Font("Dialog", Font.BOLD, 20));
         btnCrearCuenta.setForeground(Color.BLACK);
         GridBagConstraints gbc_btnCrearCuenta = new GridBagConstraints();
+        gbc_btnCrearCuenta.anchor = GridBagConstraints.NORTH;
         gbc_btnCrearCuenta.insets = new Insets(0, 0, 5, 5);
         gbc_btnCrearCuenta.gridx = 1;
         gbc_btnCrearCuenta.gridy = 10;
