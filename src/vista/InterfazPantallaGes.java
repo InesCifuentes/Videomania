@@ -63,6 +63,37 @@ public class InterfazPantallaGes extends JFrame {
       gbc_btnUsuario.gridy = 0;
       getContentPane().add(btnUsuario, gbc_btnUsuario);
 
+      JPopupMenu menuUsuario = new JPopupMenu();
+      JMenuItem itemNombre = new JMenuItem(getName()); //Como obtiene el nombre de usuario??
+      itemNombre.setFont(new Font("Dialog", Font.BOLD, 15));
+      menuUsuario.add(itemNombre);
+
+      // Boton de cerrar sesion dentro del desplejable
+      JButton btnCerrarSesion = new JButton("Cerrar Sesion");
+      btnCerrarSesion.setFont(new Font("Dialog", Font.BOLD, 15));
+      btnCerrarSesion.setBackground(new Color(0, 128, 128));
+      btnCerrarSesion.setForeground(Color.BLACK);
+      btnCerrarSesion.setPreferredSize(new Dimension(150, 50));
+      btnCerrarSesion.setMinimumSize(new Dimension(150, 50));
+      btnCerrarSesion.setMaximumSize(new Dimension(150, 50));
+      btnCerrarSesion.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            InterfazPrincipal interfazPrincipal = new InterfazPrincipal();
+            interfazPrincipal.setVisible(true);
+            dispose(); // Cierra la ventana actual
+         }
+      });
+      menuUsuario.add(btnCerrarSesion);
+      menuUsuario.setPreferredSize(new Dimension(150, 100));
+      menuUsuario.setMinimumSize(new Dimension(150, 100));
+      menuUsuario.setMaximumSize(new Dimension(1500, 100));
+
+      btnUsuario.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            menuUsuario.show(btnUsuario, btnUsuario.getWidth(), btnUsuario.getHeight());
+         }
+      });
+        
       JButton btnDevolverProductos = new JButton("Modificar Catálogo");
       btnDevolverProductos.setFont(new Font("Dialog", Font.BOLD, 25));
       btnDevolverProductos.setBackground(new Color(0, 128, 128));
