@@ -184,6 +184,7 @@ public class InterfazCrearCli extends JFrame {
         getContentPane().add(btnCrearCuenta, gbc_btnCrearCuenta);
 
         lblErrorVacio = new JLabel("No puede haber campos vacíos");
+        lblErrorVacio.setFont(new Font("Dialog", Font.BOLD, 17));
         lblErrorVacio.setForeground(Color.RED);
         lblErrorVacio.setVisible(false);
         GridBagConstraints gbc_lblErrorVacio = new GridBagConstraints();
@@ -193,6 +194,7 @@ public class InterfazCrearCli extends JFrame {
         getContentPane().add(lblErrorVacio, gbc_lblErrorVacio);
             
         lblErrorUsuario = new JLabel("El nombre de usuario ya existe");
+        lblErrorUsuario.setFont(new Font("Dialog", Font.BOLD, 17));
         lblErrorUsuario.setForeground(Color.RED);
         lblErrorUsuario.setVisible(false);
         GridBagConstraints gbc_lblErrorUsuario = new GridBagConstraints();
@@ -202,6 +204,7 @@ public class InterfazCrearCli extends JFrame {
         getContentPane().add(lblErrorUsuario, gbc_lblErrorUsuario);
         
         lblErrorEdad = new JLabel("La edad debe ser un número");
+        lblErrorEdad.setFont(new Font("Dialog", Font.BOLD, 17));
         lblErrorEdad.setForeground(Color.RED);
         lblErrorEdad.setVisible(false);
         GridBagConstraints gbc_lblErrorEdad = new GridBagConstraints();
@@ -211,6 +214,7 @@ public class InterfazCrearCli extends JFrame {
         getContentPane().add(lblErrorEdad, gbc_lblErrorEdad);
 
         lblErrorPas = new JLabel("Las contraseñas no coinciden");
+        lblErrorPas.setFont(new Font("Dialog", Font.BOLD, 17));
         lblErrorPas.setForeground(Color.RED);
         lblErrorPas.setVisible(false);
         GridBagConstraints gbc_lblErrorPas = new GridBagConstraints();

@@ -37,6 +37,15 @@ public class InterfazPantallaGes extends JFrame {
       Dimension pantalla = toolkit.getScreenSize();
       int width = (int) pantalla.getWidth();
       int height = (int) pantalla.getHeight();
+      
+      Insets bordes = getInsets();
+      int top = bordes.top;
+      int bottom = bordes.bottom;
+      int left = bordes.left;
+      int right = bordes.right;
+
+      height = height - top - bottom;
+      width = width - left - right;
         
       int part = height / 3;
         

@@ -297,6 +297,7 @@ public class InterfazIntroducirProducto extends JFrame {
 		getContentPane().add(comboBoxPEGI, gbc_comboBoxPEGI); 
 
         lblErrorVacio = new JLabel("No puede haber campos vacíos");
+        lblErrorVacio.setFont(new Font("Dialog", Font.BOLD, 17));
         lblErrorVacio.setForeground(Color.RED);
         lblErrorVacio.setVisible(false);
         GridBagConstraints gbc_lblErrorVacio = new GridBagConstraints();

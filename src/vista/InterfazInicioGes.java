@@ -90,7 +90,7 @@ public class InterfazInicioGes extends JFrame {
         getContentPane().add(btnVolver, gbc_btnVolver);
         
         lblErrorUsuario = new JLabel("No existe el nombre de usuario");
-        lblErrorUsuario.setFont(new Font("Dialog", Font.BOLD, 15));
+        lblErrorUsuario.setFont(new Font("Dialog", Font.BOLD, 17));
         lblErrorUsuario.setForeground(Color.RED);
         lblErrorUsuario.setVisible(false);
         
@@ -141,7 +141,7 @@ public class InterfazInicioGes extends JFrame {
         getContentPane().add(lblErrorUsuario, gbc_lblErrorUsuario);
 
         lblErrorPas = new JLabel("Contraseña incorrecta");
-        lblErrorPas.setFont(new Font("Dialog", Font.BOLD, 15));
+        lblErrorPas.setFont(new Font("Dialog", Font.BOLD, 17));
         lblErrorPas.setForeground(Color.RED);
         lblErrorPas.setVisible(false);
         GridBagConstraints gbc_lblErrorPas = new GridBagConstraints();

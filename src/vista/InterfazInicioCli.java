@@ -131,7 +131,7 @@ public class InterfazInicioCli extends JFrame {
         getContentPane().add(passwordField, gbc_passwordField);
 
         lblErrorVacio = new JLabel("No puede estar ningún campo vacío");
-        lblErrorVacio.setFont(new Font("Dialog", Font.BOLD, 15));
+        lblErrorVacio.setFont(new Font("Dialog", Font.BOLD, 17));
         lblErrorVacio.setForeground(Color.RED);
         lblErrorVacio.setVisible(false);
         GridBagConstraints gbc_lblErrorVacio = new GridBagConstraints();
@@ -141,7 +141,7 @@ public class InterfazInicioCli extends JFrame {
         getContentPane().add(lblErrorVacio, gbc_lblErrorVacio);
 
         lblErrorUsuario = new JLabel("No existe el nombre de usuario");
-        lblErrorUsuario.setFont(new Font("Dialog", Font.BOLD, 15));
+        lblErrorUsuario.setFont(new Font("Dialog", Font.BOLD, 17));
         lblErrorUsuario.setForeground(Color.RED);
         lblErrorUsuario.setVisible(false);
         GridBagConstraints gbc_lblErrorUsuario = new GridBagConstraints();
@@ -151,7 +151,7 @@ public class InterfazInicioCli extends JFrame {
         getContentPane().add(lblErrorUsuario, gbc_lblErrorUsuario);
 
         lblErrorPas = new JLabel("Contraseña incorrecta");
-        lblErrorPas.setFont(new Font("Dialog", Font.BOLD, 15));
+        lblErrorPas.setFont(new Font("Dialog", Font.BOLD, 17));
         lblErrorPas.setForeground(Color.RED);
         lblErrorPas.setVisible(false);
         GridBagConstraints gbc_lblErrorPas = new GridBagConstraints();
