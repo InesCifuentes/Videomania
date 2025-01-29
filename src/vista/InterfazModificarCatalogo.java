@@ -116,17 +116,24 @@ public class InterfazModificarCatalogo extends JFrame {
       });
         
         
-      JButton btnDevolverProductos = new JButton("Introducir Producto");
-      btnDevolverProductos.setFont(new Font("Dialog", Font.BOLD, 25));
-      btnDevolverProductos.setBackground(new Color(0, 128, 128));
-      btnDevolverProductos.setForeground(Color.BLACK);
-      GridBagConstraints gbc_btnDevolverProductos = new GridBagConstraints();
-      gbc_btnDevolverProductos.fill = GridBagConstraints.BOTH;
-      gbc_btnDevolverProductos.insets = new Insets(0, 0, 5, 5);
-      gbc_btnDevolverProductos.gridx = 1;
-      gbc_btnDevolverProductos.gridy = 1;
-      getContentPane().add(btnDevolverProductos, gbc_btnDevolverProductos);
-      gbc_btnDevolverProductos.gridy = 3;
+      JButton btnIntroducirProducto = new JButton("Introducir Producto");
+      btnIntroducirProducto.setFont(new Font("Dialog", Font.BOLD, 25));
+      btnIntroducirProducto.setBackground(new Color(0, 128, 128));
+      btnIntroducirProducto.setForeground(Color.BLACK);
+      GridBagConstraints gbc_btnIntroducirProducto = new GridBagConstraints();
+      gbc_btnIntroducirProducto.fill = GridBagConstraints.BOTH;
+      gbc_btnIntroducirProducto.insets = new Insets(0, 0, 5, 5);
+      gbc_btnIntroducirProducto.gridx = 1;
+      gbc_btnIntroducirProducto.gridy = 1;
+      getContentPane().add(btnIntroducirProducto, gbc_btnIntroducirProducto);
+      
+      btnIntroducirProducto.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+              InterfazIntroducirProducto introducirProducto = new InterfazIntroducirProducto();
+              introducirProducto.setVisible(true);
+              dispose();
+          }
+      });
       
       JButton btnEliminarProductos = new JButton("Eliminar Producto");
       btnEliminarProductos.setForeground(Color.BLACK);
