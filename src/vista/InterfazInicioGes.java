@@ -172,6 +172,9 @@ public class InterfazInicioGes extends JFrame {
                         lblErrorPas.setVisible(false);
                                 
                         //SE CREA OTRA VENTANA
+                        InterfazPantallaGes interfaz = new InterfazPantallaGes();
+                        interfaz.setVisible(true);
+                        dispose();
 
                     } else {
                         // Contraseña incorrecta

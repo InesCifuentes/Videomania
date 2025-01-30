@@ -1,24 +1,35 @@
 package controlador;
 
-import modelo.modeloDAO.UsuarioDAO;
+import modelo.modeloDAO.ClienteDAO;
+import modelo.modeloVO.ClienteVO;
 
 public class ControladorInicioCli {
 
-    private UsuarioDAO usuarioDAO;
-    private static final String tipoUsuario = "cliente";
-
+    private ClienteDAO usuarioDAO;
+    
     public ControladorInicioCli() {
-        usuarioDAO = new UsuarioDAO();
+        usuarioDAO = new ClienteDAO();
     }
 
     public boolean verificarUsuario(String usuario) {
-        
-        return this.usuarioDAO.estaRegistrado(usuario, tipoUsuario);
+    	for(ClienteVO cliente : usuarioDAO.obtenerClientes()) {
+        	if(usuario.equals(cliente.getNombre())) {
+        		return true;
+        	}
+        }
+        return false;
     }
 
     public boolean verificarPas(String usuario, String password) {
-        
-        return this.usuarioDAO.estaRegistrado(usuario, password, tipoUsuario);
+    	for(ClienteVO cliente : usuarioDAO.obtenerClientes()) {
+        	if(usuario.equals(cliente.getNombre())) {
+        		if(password.equals(cliente.getPassword())) {
+        			return true;
+        		}
+        		
+        	}
+        }
+        return false;
     }
     
 }

@@ -23,7 +23,7 @@ public class InterfazConsultarPedido extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtBuscarNombre;
-	private JLabel lblErrorNoExiste;
+	private JLabel lblErrorNoExiste, lblErrorNoAlquilar;
 	
 	/**
 	 * Create the frame.
@@ -145,6 +145,16 @@ public class InterfazConsultarPedido extends JFrame {
 		gbc_lblErrorNoExiste.gridy = 2;
 		getContentPane().add(lblErrorNoExiste, gbc_lblErrorNoExiste);
 		
+		lblErrorNoAlquilar = new JLabel("El cliente no tiene productos a alquilar");
+        lblErrorNoAlquilar.setFont(new Font("Dialog", Font.BOLD, 17));
+        lblErrorNoAlquilar.setForeground(Color.RED);
+        lblErrorNoAlquilar.setVisible(false);
+        GridBagConstraints gbc_lblErrorNoAlquilar = new GridBagConstraints();
+        gbc_lblErrorNoAlquilar.insets = new Insets(0, 0, 5, 5);
+        gbc_lblErrorNoAlquilar.gridx = 1;
+        gbc_lblErrorNoAlquilar.gridy = 8;
+        getContentPane().add(lblErrorNoAlquilar, gbc_lblErrorNoAlquilar);
+        
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnBuscar.setBackground(new Color(0, 128, 128));
@@ -166,7 +176,19 @@ public class InterfazConsultarPedido extends JFrame {
 
 				if(existe) {
 					//MOSTRAR EL PEDIDO
-					lblErrorNoExiste.setVisible(existe);
+					lblErrorNoExiste.setVisible(false);
+					boolean alquilado = controladorBuscarUsuario.buscarAlquiler(nombre);
+					if(alquilado) {
+						lblErrorNoAlquilar.setVisible(false);
+						
+						controladorBuscarUsuario.obtenerProductos(nombre);
+						//
+						//MOSTRAR EL PEDIDO
+					}
+					else {
+						//Mostrar mensaje de error
+						lblErrorNoAlquilar.setVisible(true);
+					}
 					
 				}
 				else {

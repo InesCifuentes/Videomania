@@ -103,27 +103,41 @@ public class InterfazPantallaGes extends JFrame {
          }
       });
         
-      JButton btnDevolverProductos = new JButton("Modificar Catálogo");
-      btnDevolverProductos.setFont(new Font("Dialog", Font.BOLD, 25));
-      btnDevolverProductos.setBackground(new Color(0, 128, 128));
-      btnDevolverProductos.setForeground(Color.BLACK);
-      GridBagConstraints gbc_btnDevolverProductos = new GridBagConstraints();
-      gbc_btnDevolverProductos.fill = GridBagConstraints.BOTH;
-      gbc_btnDevolverProductos.insets = new Insets(0, 0, 5, 5);
-      gbc_btnDevolverProductos.gridx = 1;
-      gbc_btnDevolverProductos.gridy = 1;
-      getContentPane().add(btnDevolverProductos, gbc_btnDevolverProductos);
+      JButton btnModificarCatalogo = new JButton("Modificar Catálogo");
+      btnModificarCatalogo.setFont(new Font("Dialog", Font.BOLD, 25));
+      btnModificarCatalogo.setBackground(new Color(0, 128, 128));
+      btnModificarCatalogo.setForeground(Color.BLACK);
+      GridBagConstraints gbc_btnModificarCatalogo = new GridBagConstraints();
+      gbc_btnModificarCatalogo.fill = GridBagConstraints.BOTH;
+      gbc_btnModificarCatalogo.insets = new Insets(0, 0, 5, 5);
+      gbc_btnModificarCatalogo.gridx = 1;
+      gbc_btnModificarCatalogo.gridy = 1;
+      getContentPane().add(btnModificarCatalogo, gbc_btnModificarCatalogo);
+      btnModificarCatalogo.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            InterfazModificarCatalogo interfazModificarCatalogo = new InterfazModificarCatalogo();
+            interfazModificarCatalogo.setVisible(true);
+            dispose(); // Cierra la ventana actual
+         }
+      });
         
-      JButton btnSacarProductos = new JButton("Consultar Pedido");
-      btnSacarProductos.setForeground(Color.BLACK);
-      btnSacarProductos.setBackground(new Color(0, 128, 128));
-      btnSacarProductos.setFont(new Font("Dialog", Font.BOLD, 25));
-      GridBagConstraints gbc_btnSacarProductos = new GridBagConstraints();
-      gbc_btnSacarProductos.fill = GridBagConstraints.BOTH;
-      gbc_btnSacarProductos.insets = new Insets(0, 0, 5, 5);
-      gbc_btnSacarProductos.gridx = 1;
-      gbc_btnSacarProductos.gridy = 3;
-      getContentPane().add(btnSacarProductos, gbc_btnSacarProductos);
+      JButton btnConsultarPedido = new JButton("Consultar Pedido");
+      btnConsultarPedido.setForeground(Color.BLACK);
+      btnConsultarPedido.setBackground(new Color(0, 128, 128));
+      btnConsultarPedido.setFont(new Font("Dialog", Font.BOLD, 25));
+      GridBagConstraints gbc_btnConsultarPedido = new GridBagConstraints();
+      gbc_btnConsultarPedido.fill = GridBagConstraints.BOTH;
+      gbc_btnConsultarPedido.insets = new Insets(0, 0, 5, 5);
+      gbc_btnConsultarPedido.gridx = 1;
+      gbc_btnConsultarPedido.gridy = 3;
+      getContentPane().add(btnConsultarPedido, gbc_btnConsultarPedido);
+      btnConsultarPedido.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            InterfazConsultarPedido interfazConsultarPedido = new InterfazConsultarPedido();
+            interfazConsultarPedido.setVisible(true);
+            dispose(); // Cierra la ventana actual
+         }
+      });
         
      // Establecer el icono de la ventana
       ImageIcon icon = new ImageIcon(getClass().getResource("../imagenes/logo.png"));

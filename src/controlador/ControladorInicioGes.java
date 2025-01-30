@@ -1,23 +1,36 @@
 package controlador;
 
-import modelo.modeloDAO.UsuarioDAO;
+import modelo.modeloDAO.GestorDAO;
+import modelo.modeloVO.GestorVO;
 
 public class ControladorInicioGes {
     
-    private UsuarioDAO usuarioDAO;
-    private static final String tipoUsuario = "Gestor";
-
+    private GestorDAO usuarioDAO;
+    
     public ControladorInicioGes() {
-        usuarioDAO = new UsuarioDAO();
+        usuarioDAO = new GestorDAO();
     }
 
     public boolean verificarUsuario(String usuario) {
-        
-        return this.usuarioDAO.estaRegistrado(usuario, tipoUsuario);
-    }
+    	for(GestorVO gestor : this.usuarioDAO.obtenerGestores()) {
+    		if(usuario.equals(gestor.getNombre())) {
+    			return true;
+    		}
+    	}
+    	return false;
+         
+     }
 
     public boolean verificarPas(String usuario, String password) {
+    	for(GestorVO gestor : this.usuarioDAO.obtenerGestores()) {
+    		if(usuario.equals(gestor.getNombre())) {
+    			if(password.equals(gestor.getPassword())){
+    				return true;
+    			}
+    			
+    		}
+    	}
+    	return false;
         
-        return this.usuarioDAO.estaRegistrado(usuario, password, tipoUsuario);
     }
 }

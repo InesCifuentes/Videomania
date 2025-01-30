@@ -223,7 +223,7 @@ public class InterfazIntroducirProducto extends JFrame {
             @Override
             public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
                 if(comboBoxGenero.getItemCount() == 0) {
-                    String[] generos = {"Drama", "Miedo", "Comedia"};
+                    String[] generos = {"Drama", "Terror", "Comedia", "Accion", "Ciencia Ficcion", "Biografico"};
                     for (String genero : generos) {
                         comboBoxGenero.addItem(genero);
                     }
@@ -305,7 +305,7 @@ public class InterfazIntroducirProducto extends JFrame {
         gbc_lblErrorVacio.gridx = 1;
         gbc_lblErrorVacio.gridy = 8;
         getContentPane().add(lblErrorVacio, gbc_lblErrorVacio);
-        
+
         JButton btnAadir = new JButton("Añadir");
         btnAadir.setBackground(new Color(0, 128, 128));
         btnAadir.setForeground(Color.BLACK);
@@ -331,10 +331,18 @@ public class InterfazIntroducirProducto extends JFrame {
                 else {
                     lblErrorVacio.setVisible(false);
                     ControladorNuevoProducto controlador = new ControladorNuevoProducto();
-                    controlador.crearProducto(nombre, categoria, genero, pegi);
-                    InterfazPantallaGes gestor = new InterfazPantallaGes();
-                    gestor.setVisible(true);
-                    dispose(); // Cierra la ventana actual
+                    boolean creado = controlador.existeProducto(nombre);
+                    if(!creado) {
+                        controlador.crearProducto(nombre, categoria, genero, pegi);
+                        InterfazPantallaGes gestor = new InterfazPantallaGes();
+                        gestor.setVisible(true);
+                        dispose(); // Cierra la ventana actual
+                    }
+                    else {
+                        lblErrorVacio.setText("El producto ya existe");
+                        lblErrorVacio.setVisible(true);
+                    }
+                    
                 }
             }
         });
