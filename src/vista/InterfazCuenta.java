@@ -17,15 +17,12 @@ import java.awt.Color;
 public class InterfazCuenta extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	//private JPanel contentPane;
 
 	/**
 	 * Create the frame.
 	 */
 	public InterfazCuenta() {
-		// Configura el título de la ventana
-        super();
-        
+	
         // Configura la operación al cerrar la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -35,15 +32,48 @@ public class InterfazCuenta extends JFrame {
         int width = (int) pantalla.getWidth();
         int height = (int) pantalla.getHeight();
         
+        setSize(pantalla);
+        
+        Insets bordes = getInsets();
+        int top = bordes.top;
+        int bottom = bordes.bottom;
+        int left = bordes.left;
+        int right = bordes.right;
+
+        height = height - top - bottom;
+        width = width - left - right;
+        
         int part = height / 3;
         
-        setSize(pantalla);
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{width/4, width/3, width/4};
-        gridBagLayout.rowHeights = new int[]{0, part/2, part/6, part/2, 0};
+        gridBagLayout.rowHeights = new int[]{part-part/5, part/2, part/6, part/2, part-part/5};
         gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+        gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
         getContentPane().setLayout(gridBagLayout);
+        
+        JButton btnVolver = new JButton("< Volver");
+        btnVolver.setBackground(new Color(0, 128, 128));
+        btnVolver.setForeground(Color.BLACK);
+        btnVolver.setFont(new Font("Dialog", Font.BOLD, 17));
+        btnVolver.setPreferredSize(new Dimension(150, 50));
+        btnVolver.setMinimumSize(new Dimension(150, 50));
+        btnVolver.setMaximumSize(new Dimension(150, 50));
+
+        btnVolver.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		InterfazPrincipal interfazPrincipal = new InterfazPrincipal();
+                interfazPrincipal.setVisible(true);
+                dispose(); // Cierra la ventana actual
+        	}
+        });
+
+        GridBagConstraints gbc_btnVolver = new GridBagConstraints();
+        gbc_btnVolver.anchor = GridBagConstraints.NORTHWEST;
+        gbc_btnVolver.insets = new Insets(0, 0, 5, 5);
+        gbc_btnVolver.gridx = 0;
+        gbc_btnVolver.gridy = 0;
+        getContentPane().add(btnVolver, gbc_btnVolver);
         
         JButton btnTengoCuenta = new JButton("Tengo Cuenta");
         btnTengoCuenta.setBackground(new Color(0, 128, 128));
@@ -69,6 +99,15 @@ public class InterfazCuenta extends JFrame {
         btnCrearCuenta.setForeground(Color.BLACK);
         btnCrearCuenta.setBackground(new Color(0, 128, 128));
         btnCrearCuenta.setFont(new Font("Dialog", Font.BOLD, 20));
+        
+        btnCrearCuenta.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                InterfazCrearCli interfazCrear = new InterfazCrearCli();
+                interfazCrear.setVisible(true);
+                dispose(); // Cierra la ventana actual
+            }
+        });
+        
         GridBagConstraints gbc_btnCrearCuenta = new GridBagConstraints();
         gbc_btnCrearCuenta.fill = GridBagConstraints.BOTH;
         gbc_btnCrearCuenta.insets = new Insets(0, 0, 5, 5);

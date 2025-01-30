@@ -11,7 +11,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
 
-import controlador.ControladorInicioCli;
+import controlador.ControladorInicioGes;
 
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
@@ -20,17 +20,17 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class InterfazInicioCli extends JFrame {
+public class InterfazInicioGes extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JPasswordField passwordField;
-    private JLabel lblErrorUsuario, lblErrorPas, lblErrorVacio;
+    private JLabel lblErrorUsuario, lblErrorPas;
 	
 	/**
 	 * Create the frame.
 	 */
-	public InterfazInicioCli() {
+	public InterfazInicioGes() {
 		
 		// Configura el título de la ventana
         super("Iniciar Sesión");
@@ -89,6 +89,11 @@ public class InterfazInicioCli extends JFrame {
         gbc_btnVolver.anchor = GridBagConstraints.NORTHWEST;
         getContentPane().add(btnVolver, gbc_btnVolver);
         
+        lblErrorUsuario = new JLabel("No existe el nombre de usuario");
+        lblErrorUsuario.setFont(new Font("Dialog", Font.BOLD, 17));
+        lblErrorUsuario.setForeground(Color.RED);
+        lblErrorUsuario.setVisible(false);
+        
         JLabel lblUsuario = new JLabel("Usuario");
         lblUsuario.setForeground(Color.BLACK);
         lblUsuario.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -129,21 +134,6 @@ public class InterfazInicioCli extends JFrame {
         gbc_passwordField.gridx = 1;
         gbc_passwordField.gridy = 4;
         getContentPane().add(passwordField, gbc_passwordField);
-
-        lblErrorVacio = new JLabel("No puede estar ningún campo vacío");
-        lblErrorVacio.setFont(new Font("Dialog", Font.BOLD, 17));
-        lblErrorVacio.setForeground(Color.RED);
-        lblErrorVacio.setVisible(false);
-        GridBagConstraints gbc_lblErrorVacio = new GridBagConstraints();
-        gbc_lblErrorVacio.insets = new Insets(0, 0, 5, 5);
-        gbc_lblErrorVacio.gridx = 1;
-        gbc_lblErrorVacio.gridy = 5;
-        getContentPane().add(lblErrorVacio, gbc_lblErrorVacio);
-
-        lblErrorUsuario = new JLabel("No existe el nombre de usuario");
-        lblErrorUsuario.setFont(new Font("Dialog", Font.BOLD, 17));
-        lblErrorUsuario.setForeground(Color.RED);
-        lblErrorUsuario.setVisible(false);
         GridBagConstraints gbc_lblErrorUsuario = new GridBagConstraints();
         gbc_lblErrorUsuario.insets = new Insets(0, 0, 5, 5);
         gbc_lblErrorUsuario.gridx = 1;
@@ -169,22 +159,11 @@ public class InterfazInicioCli extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String usuario = textField.getText();
                 String password = new String(passwordField.getPassword());
-                ControladorInicioCli controlador = new ControladorInicioCli();
+                ControladorInicioGes controlador = new ControladorInicioGes();
                 boolean registrado = controlador.verificarUsuario(usuario);
-
-                if(usuario.equals("") || password.equals("")) {
-                    // Campos vacíos
-                    lblErrorVacio.setVisible(true);
-                    lblErrorUsuario.setVisible(false);
-                    lblErrorPas.setVisible(false);
-                    return;
-                } 
-
                 if (!registrado) {
                     // Usuario no registrado
-                    lblErrorVacio.setVisible(false);
                     lblErrorUsuario.setVisible(true);
-                    lblErrorPas.setVisible(false);
                 } else {
                     boolean correcto = controlador.verificarPas(usuario, password);
                     if (correcto) {
@@ -192,10 +171,7 @@ public class InterfazInicioCli extends JFrame {
                         lblErrorUsuario.setVisible(false);
                         lblErrorPas.setVisible(false);
                                 
-                        //Se crea la siguiente ventana
-                        InterfazPantallaCli interfazPrincipalCli = new InterfazPantallaCli();
-                        interfazPrincipalCli.setVisible(true);
-                        dispose(); // Cierra la ventana actual
+                        //SE CREA OTRA VENTANA
 
                     } else {
                         // Contraseña incorrecta

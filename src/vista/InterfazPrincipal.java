@@ -13,11 +13,13 @@ import java.awt.event.ActionListener;   // Importa ActionListener para manejar e
 import java.awt.event.ActionEvent;      // Importa ActionEvent para manejar eventos de acción
 
 public class InterfazPrincipal extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
 
     public InterfazPrincipal() {
         // Configura el título de la ventana
         super("Pantalla Principal");
-        setFont(new Font("Dialog", Font.BOLD, 12));
+        setFont(new Font("Dialog", Font.BOLD, 15));
 
         // Configura la operación al cerrar la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,7 +42,7 @@ public class InterfazPrincipal extends JFrame {
         getContentPane().setLayout(gridBagLayout);
         
         JButton btnCliente = new JButton("Cliente");
-        btnCliente.setFont(new Font("Dialog", Font.BOLD, 20));
+        btnCliente.setFont(new Font("Dialog", Font.BOLD, 25));
         btnCliente.setForeground(Color.BLACK);
         btnCliente.setBackground(new Color(0, 128, 128));
 
@@ -60,9 +62,17 @@ public class InterfazPrincipal extends JFrame {
         getContentPane().add(btnCliente, gbc_btnCliente);
         
         JButton btnGestor = new JButton("Gestor");
-        btnGestor.setFont(new Font("Dialog", Font.BOLD, 20));
+        btnGestor.setFont(new Font("Dialog", Font.BOLD, 25));
         btnGestor.setForeground(Color.BLACK);
         btnGestor.setBackground(new Color(0, 128, 128));
+
+        btnGestor.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                InterfazInicioGes interfazInicioGes = new InterfazInicioGes();
+                interfazInicioGes.setVisible(true);
+                dispose(); // Cierra la ventana actual
+            }
+        });
         GridBagConstraints gbc_btnGestor = new GridBagConstraints();
         gbc_btnGestor.insets = new Insets(0, 0, 5, 5);
         gbc_btnGestor.fill = GridBagConstraints.BOTH;
