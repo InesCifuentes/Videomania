@@ -22,8 +22,7 @@ public class ControladorCrearCli {
     }
 
     public void crearUsuario(String usuario, String password, String edad) {
-        ClienteVO nuevoUsuario = new ClienteVO(usuario, Integer.parseInt(edad),  password);
-        usuarioDAO.insertarCliente(nuevoUsuario);
+        usuarioDAO.agregarCliente(usuario, password, Integer.parseInt(edad));
     }
     
 }
