@@ -5,9 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexion {
-    // Esta línea es para conectarse a SQLServer mediante autenticación de Windows(está puesta con el "nombre de usuario de Inés)
+    // Esta línea es para conectarse a SQLServer mediante autenticación de Windows(está puesta con el "nombre de usuario de Inés")
     private static final String URL = "jdbc:sqlserver://DESKTOP-U52F6BQ\\SQLEXPRESS:1433;databaseName=Videomania;encrypt=false;trustServerCertificate=true;integratedSecurity=true;";
   
+    // Esta línea es para conectarse a SQLServer mediante autenticación de Windows(está puesta con el "nombre de usuario de Ester")
+    //private static final String URL = "jdbc:sqlserver://LAPTOP-OT46E21M\\SQLEXPRESS:1433;databaseName=Videomania;encrypt=false;trustServerCertificate=true;integratedSecurity=true;";
+
     // Deja el usuario y la contraseña vacíos porque usas autenticación de Windows
     private static final String USUARIO = ""; 
     private static final String PASSWORD = ""; 
