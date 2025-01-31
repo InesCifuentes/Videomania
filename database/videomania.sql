@@ -1,5 +1,4 @@
-
-CREATE DATABASE Videomania;
+USE Videomania;
 
 CREATE TABLE Categoria (
     Categoria VARCHAR(50) PRIMARY KEY
@@ -19,20 +18,15 @@ CREATE TABLE Producto (
     FOREIGN KEY (Genero) REFERENCES Genero(Genero)
 );
 
-CREATE TABLE Usuario (
+CREATE TABLE Gestor (
     Nombre VARCHAR(50) PRIMARY KEY,
     Contrasena VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE Gestor (
-    Nombre VARCHAR(50) PRIMARY KEY
-    FOREIGN KEY (Nombre) REFERENCES Usuario(Nombre)
-);
-
 CREATE TABLE Cliente (
     Nombre VARCHAR(50) PRIMARY KEY,
-    Edad INT NOT NULL,
-    FOREIGN KEY (Nombre) REFERENCES Usuario(Nombre)
+    Contrasena VARCHAR(50) NOT NULL,
+    Edad INT NOT NULL
 );
 
 CREATE TABLE Alquiler (

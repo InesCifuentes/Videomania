@@ -3,7 +3,7 @@ package modelo.modeloVO;
 public class ClienteVO extends UsuarioVO {
     private int edad;
 
-    public ClienteVO(String nombre, int edad, String password) {
+    public ClienteVO(String nombre, String password, int edad) {
         super(nombre, password);
         this.edad = edad;
     }

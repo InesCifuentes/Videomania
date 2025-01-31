@@ -23,14 +23,14 @@ public class ControladorPrincipal {
         AlquilerDAO alquilerDAO = new AlquilerDAO();
 
         // OBJETOS VISTA
-        InterfazPrincipal interfazPrincipal = new InterfazPrincipal();
+        //InterfazPrincipal interfazPrincipal = new InterfazPrincipal();
     
         // PRUEBAS DE BASE DE DATOS
-       PruebasBD.probarGestor(gestorDAO);
+//       PruebasBD.probarGestor(gestorDAO);
+      PruebasBD.probarCliente(clienteDAO);
+     PruebasBD.probarGenero(generoDAO);
 //        PruebasBD.probarCategoria(categoriaDAO);
-//        PruebasBD.probarCliente(clienteDAO);
 //        PruebasBD.probarDevolucion(devolucionDAO);
-//        PruebasBD.probarGenero(generoDAO);
 //        PruebasBD.probarMulta(multaDAO);
 //        PruebasBD.probarProducto(productoDAO);
 //        PruebasBD.probarUnidadProducto(unidadProductoDAO);

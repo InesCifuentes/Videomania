@@ -8,13 +8,13 @@ import modelo.modeloVO.*;
 public class PruebasBD {
 
     public static void probarGestor(GestorDAO gestorDAO) {
-//        // Añadir gestor
-//        boolean resultado = gestorDAO.agregarGestor("nuevoGestor", "nuevaContrasena");
-//        if (resultado) {
-//            System.out.println("Gestor agregado con éxito");
-//        } else {
-//            System.out.println("Hubo un error al agregar el gestor");
-//        }
+        // Añadir gestor
+        boolean resultado = gestorDAO.agregarGestor("Juan", "1234");
+        if (resultado) {
+            System.out.println("Gestor agregado con éxito");
+        } else {
+            System.out.println("Hubo un error al agregar el gestor");
+        }
 
         // Obtener y mostrar gestores
         ArrayList<GestorVO> gestores = gestorDAO.obtenerGestores();
@@ -23,30 +23,32 @@ public class PruebasBD {
             System.out.println("Nombre: " + gestor.getNombre() + ", Password: " + gestor.getPassword());
         }
 
-//        // Eliminar gestor
-//        boolean resultado2 = gestorDAO.eliminarGestor("nuevoGestor");
-//        if (resultado2) {
-//            System.out.println("Gestor eliminado con éxito");
-//        } else {
-//            System.out.println("Hubo un error al eliminar el gestor");
-//        }
-//
-//        // Obtener y mostrar gestores
-//        gestores = gestorDAO.obtenerGestores();
-//        System.out.println("Número de gestores: " + gestores.size());
-//        for (GestorVO gestor : gestores) {
-//            System.out.println("Nombre: " + gestor.getNombre() + ", Password: " + gestor.getPassword());
-//        }
+        // Eliminar gestor
+        boolean resultado2 = gestorDAO.eliminarGestor("Juan");
+        if (resultado2) {
+            System.out.println("Gestor eliminado con éxito");
+        } else {
+            System.out.println("Hubo un error al eliminar el gestor");
+        }
+
+        // Obtener y mostrar gestores
+        gestores = gestorDAO.obtenerGestores();
+        System.out.println("Número de gestores: " + gestores.size());
+        for (GestorVO gestor : gestores) {
+            System.out.println("Nombre: " + gestor.getNombre() + ", Password: " + gestor.getPassword());
+        }
     }
 
     public static void probarCategoria(CategoriaDAO categoriaDAO) {
-        // Añadir categoría
-        CategoriaVO nuevaCategoria = new CategoriaVO("Acción");
-        boolean resultado = categoriaDAO.agregarCategoria(nuevaCategoria);
-        if (resultado) {
-            System.out.println("Categoría agregada con éxito");
+        // Añadir categorías
+        CategoriaVO categoria1 = new CategoriaVO("Película");
+        CategoriaVO categoria2 = new CategoriaVO("Videojuego");
+        boolean resultado1 = categoriaDAO.agregarCategoria(categoria1);
+        boolean resultado2 = categoriaDAO.agregarCategoria(categoria2);
+        if (resultado1 && resultado2) {
+            System.out.println("Categorías agregadas con éxito");
         } else {
-            System.out.println("Hubo un error al agregar la categoría");
+            System.out.println("Hubo un error al agregar las categorías");
         }
 
         // Obtener y mostrar categorías
@@ -56,12 +58,13 @@ public class PruebasBD {
             System.out.println("Categoría: " + categoria.getCategoria());
         }
 
-        // Eliminar categoría
-        boolean resultado2 = categoriaDAO.eliminarCategoria("Acción");
-        if (resultado2) {
-            System.out.println("Categoría eliminada con éxito");
+        // Eliminar categorías
+        boolean resultado3 = categoriaDAO.eliminarCategoria("Película");
+        boolean resultado4 = categoriaDAO.eliminarCategoria("Videojuego");
+        if (resultado3 && resultado4) {
+            System.out.println("Categorías eliminadas con éxito");
         } else {
-            System.out.println("Hubo un error al eliminar la categoría");
+            System.out.println("Hubo un error al eliminar las categorías");
         }
 
         // Obtener y mostrar categorías
@@ -73,13 +76,17 @@ public class PruebasBD {
     }
 
     public static void probarGenero(GeneroDAO generoDAO) {
-        // Añadir género
-        GeneroVO nuevoGenero = new GeneroVO("Comedia");
-        boolean resultado = generoDAO.agregarGenero(nuevoGenero);
-        if (resultado) {
-            System.out.println("Género agregado con éxito");
+        // Añadir géneros
+        GeneroVO genero1 = new GeneroVO("Comedia");
+        GeneroVO genero2 = new GeneroVO("Acción");
+        GeneroVO genero3 = new GeneroVO("Drama");
+        boolean resultado1 = generoDAO.agregarGenero(genero1);
+        boolean resultado2 = generoDAO.agregarGenero(genero2);
+        boolean resultado3 = generoDAO.agregarGenero(genero3);
+        if (resultado1 && resultado2 && resultado3) {
+            System.out.println("Géneros agregados con éxito");
         } else {
-            System.out.println("Hubo un error al agregar el género");
+            System.out.println("Hubo un error al agregar los géneros");
         }
 
         // Obtener y mostrar géneros
@@ -89,12 +96,14 @@ public class PruebasBD {
             System.out.println("Género: " + genero.getGenero());
         }
 
-        // Eliminar género
-        boolean resultado2 = generoDAO.eliminarGenero("Comedia");
-        if (resultado2) {
-            System.out.println("Género eliminado con éxito");
+        // Eliminar géneros
+        boolean resultado4 = generoDAO.eliminarGenero("Comedia");
+        boolean resultado5 = generoDAO.eliminarGenero("Acción");
+        boolean resultado6 = generoDAO.eliminarGenero("Drama");
+        if (resultado4 && resultado5 && resultado6) {
+            System.out.println("Géneros eliminados con éxito");
         } else {
-            System.out.println("Hubo un error al eliminar el género");
+            System.out.println("Hubo un error al eliminar los géneros");
         }
 
         // Obtener y mostrar géneros
@@ -107,8 +116,7 @@ public class PruebasBD {
 
     public static void probarCliente(ClienteDAO clienteDAO) {
         // Añadir cliente
-        ClienteVO nuevoCliente = new ClienteVO("Juan", 25, "1234");
-        boolean resultado = clienteDAO.insertarCliente(nuevoCliente);
+        boolean resultado = clienteDAO.agregarCliente("María", "4321", 20);
         if (resultado) {
             System.out.println("Cliente agregado con éxito");
         } else {
@@ -119,11 +127,11 @@ public class PruebasBD {
         ArrayList<ClienteVO> clientes = clienteDAO.obtenerClientes();
         System.out.println("Número de clientes: " + clientes.size());
         for (ClienteVO cliente : clientes) {
-            System.out.println("Nombre: " + cliente.getNombre() + ", Edad: " + cliente.getEdad() + ", Password: " + cliente.getPassword());
+            System.out.println("Nombre: " + cliente.getNombre() + ", Password: " + cliente.getPassword()+ ", Edad: " + cliente.getEdad());
         }
 
         // Eliminar cliente
-        boolean resultado2 = clienteDAO.eliminarCliente("Juan");
+        boolean resultado2 = clienteDAO.eliminarCliente("María");
         if (resultado2) {
             System.out.println("Cliente eliminado con éxito");
         } else {
@@ -134,7 +142,7 @@ public class PruebasBD {
         clientes = clienteDAO.obtenerClientes();
         System.out.println("Número de clientes: " + clientes.size());
         for (ClienteVO cliente : clientes) {
-            System.out.println("Nombre: " + cliente.getNombre() + ", Edad: " + cliente.getEdad() + ", Password: " + cliente.getPassword());
+            System.out.println("Nombre: " + cliente.getNombre() + ", Password: " + cliente.getPassword()+ ", Edad: " + cliente.getEdad());
         }
     }
 
