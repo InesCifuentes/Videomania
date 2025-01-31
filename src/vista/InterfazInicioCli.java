@@ -32,27 +32,14 @@ public class InterfazInicioCli extends JFrame {
 	 */
 	public InterfazInicioCli() {
 		
-		// Configura el título de la ventana
-        super("Iniciar Sesión");
-        setFont(new Font("Dialog", Font.BOLD, 15));
-        
-        // Configura la operación al cerrar la ventana
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// Quita los botones de cerrar, minimizar y maximizar
+        setUndecorated(true); 
         
         // Configura el tamaño de la ventana
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension pantalla = toolkit.getScreenSize();
         int width = (int) pantalla.getWidth();
         int height = (int) pantalla.getHeight();
-        
-        Insets bordes = getInsets();
-        int top = bordes.top;
-        int bottom = bordes.bottom;
-        int left = bordes.left;
-        int right = bordes.right;
-
-        height = height - top - bottom;
-        width = width - left - right;
         
         int partW = width / 4;
         int partH = height / 8;
@@ -61,7 +48,7 @@ public class InterfazInicioCli extends JFrame {
         
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{partW, width-partW, partW};
-        gridBagLayout.rowHeights = new int[]{(5/2*partH), partH/2, partH/2, partH, partH/2, partH/2, 0, (5/2*partH)};
+        gridBagLayout.rowHeights = new int[]{(2*partH+partH/4), partH/2, partH/2, partH, partH/2, partH/2, partH/2, (2*partH+partH/4)};
         gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         getContentPane().setLayout(gridBagLayout);

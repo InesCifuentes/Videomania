@@ -22,9 +22,8 @@ public class InterfazCuenta extends JFrame {
 	 * Create the frame.
 	 */
 	public InterfazCuenta() {
-	
-        // Configura la operación al cerrar la ventana
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Quita los botones de cerrar, minimizar y maximizar
+        setUndecorated(true); 
         
         // Configura el tamaño de la ventana
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -34,20 +33,11 @@ public class InterfazCuenta extends JFrame {
         
         setSize(pantalla);
         
-        Insets bordes = getInsets();
-        int top = bordes.top;
-        int bottom = bordes.bottom;
-        int left = bordes.left;
-        int right = bordes.right;
-
-        height = height - top - bottom;
-        width = width - left - right;
-        
         int part = height / 3;
         
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]{width/4, width/3, width/4};
-        gridBagLayout.rowHeights = new int[]{part-part/5, part/2, part/6, part/2, part-part/5};
+        gridBagLayout.rowHeights = new int[]{part-part/12, part/2, part/6, part/2, part-part/12};
         gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
         gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
         getContentPane().setLayout(gridBagLayout);

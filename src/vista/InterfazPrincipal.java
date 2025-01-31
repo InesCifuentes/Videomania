@@ -17,12 +17,8 @@ public class InterfazPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
 
     public InterfazPrincipal() {
-        // Configura el título de la ventana
-        super("Pantalla Principal");
-        setFont(new Font("Dialog", Font.BOLD, 15));
-
-        // Configura la operación al cerrar la ventana
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Quita los botones de cerrar, minimizar y maximizar
+        setUndecorated(true); 
         
         // Configura el tamaño de la ventana
         Toolkit toolkit = Toolkit.getDefaultToolkit();
