@@ -12,6 +12,8 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 
 import controlador.ControladorInicioGes;
+import modelo.modeloVO.GestorVO;
+import modelo.modeloVO.UsuarioVO;
 
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
@@ -62,8 +64,8 @@ public class InterfazInicioGes extends JFrame {
         
         btnVolver.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		InterfazCuenta interfazCuenta = new InterfazCuenta();
-                interfazCuenta.setVisible(true);
+        		InterfazPrincipal interfaz = new InterfazPrincipal();
+                interfaz.setVisible(true);
                 dispose(); // Cierra la ventana actual
         	}
         });
@@ -158,7 +160,8 @@ public class InterfazInicioGes extends JFrame {
                         lblErrorPas.setVisible(false);
                                 
                         //SE CREA OTRA VENTANA
-                        InterfazPantallaGes interfaz = new InterfazPantallaGes();
+                        UsuarioVO usuarioVO = new GestorVO(usuario, password);
+                        InterfazPantallaGes interfaz = new InterfazPantallaGes(usuarioVO);
                         interfaz.setVisible(true);
                         dispose();
 

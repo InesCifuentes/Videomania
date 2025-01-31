@@ -20,6 +20,7 @@ import java.awt.Color;
 import javax.swing.JTextField;
 
 import controlador.ControladorBuscarUsuario;
+import modelo.modeloVO.UsuarioVO;
 
 public class InterfazConsultarPedido extends JFrame {
 
@@ -30,7 +31,7 @@ public class InterfazConsultarPedido extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InterfazConsultarPedido() {
+	public InterfazConsultarPedido(UsuarioVO usuarioVO) {
 		// Quita los botones de cerrar, minimizar y maximizar
         setUndecorated(true); 
         
@@ -55,7 +56,7 @@ public class InterfazConsultarPedido extends JFrame {
 		JButton btnVolver = new JButton("< Volver");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InterfazPantallaGes interfazPantallaGes = new InterfazPantallaGes();
+				InterfazPantallaGes interfazPantallaGes = new InterfazPantallaGes(usuarioVO);
 				interfazPantallaGes.setVisible(true);
 				dispose(); // Cierra la ventana actual
 				}
@@ -75,7 +76,7 @@ public class InterfazConsultarPedido extends JFrame {
 		getContentPane().add(btnVolver, gbc_btnVolver);
 
 		JPopupMenu menuUsuario = new JPopupMenu();
-		JMenuItem itemNombre = new JMenuItem(getName()); //Como obtiene el nombre de usuario??
+		JMenuItem itemNombre = new JMenuItem(usuarioVO.getNombre());
 		itemNombre.setFont(new Font("Dialog", Font.BOLD, 15));
 		menuUsuario.add(itemNombre);
 
@@ -114,11 +115,11 @@ public class InterfazConsultarPedido extends JFrame {
 		gbc_btnUsuario.gridy = 0;
 		getContentPane().add(btnUsuario, gbc_btnUsuario);
 		
-				btnUsuario.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						menuUsuario.show(btnUsuario, btnUsuario.getWidth(), btnUsuario.getHeight());
-					}
-				});
+		btnUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				menuUsuario.show(btnUsuario, btnUsuario.getWidth(), btnUsuario.getHeight());
+			}
+		});
 
 		txtBuscarNombre = new JTextField();
 		txtBuscarNombre.setFont(new Font("Dialog", Font.PLAIN, 25));

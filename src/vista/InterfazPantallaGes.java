@@ -8,6 +8,9 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+
+import modelo.modeloVO.UsuarioVO;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -24,7 +27,7 @@ public class InterfazPantallaGes extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InterfazPantallaGes() {
+	public InterfazPantallaGes(UsuarioVO usuarioVO) {
 		// Quita los botones de cerrar, minimizar y maximizar
       setUndecorated(true); 
         
@@ -60,7 +63,7 @@ public class InterfazPantallaGes extends JFrame {
       getContentPane().add(btnUsuario, gbc_btnUsuario);
 
       JPopupMenu menuUsuario = new JPopupMenu();
-      JMenuItem itemNombre = new JMenuItem(getName()); //Como obtiene el nombre de usuario??
+      JMenuItem itemNombre = new JMenuItem(usuarioVO.getNombre());
       itemNombre.setFont(new Font("Dialog", Font.BOLD, 15));
       menuUsuario.add(itemNombre);
 
@@ -102,7 +105,7 @@ public class InterfazPantallaGes extends JFrame {
       getContentPane().add(btnModificarCatalogo, gbc_btnModificarCatalogo);
       btnModificarCatalogo.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            InterfazModificarCatalogo interfazModificarCatalogo = new InterfazModificarCatalogo();
+            InterfazModificarCatalogo interfazModificarCatalogo = new InterfazModificarCatalogo(usuarioVO);
             interfazModificarCatalogo.setVisible(true);
             dispose(); // Cierra la ventana actual
          }
@@ -120,7 +123,7 @@ public class InterfazPantallaGes extends JFrame {
       getContentPane().add(btnConsultarPedido, gbc_btnConsultarPedido);
       btnConsultarPedido.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            InterfazConsultarPedido interfazConsultarPedido = new InterfazConsultarPedido();
+            InterfazConsultarPedido interfazConsultarPedido = new InterfazConsultarPedido(usuarioVO);
             interfazConsultarPedido.setVisible(true);
             dispose(); // Cierra la ventana actual
          }
