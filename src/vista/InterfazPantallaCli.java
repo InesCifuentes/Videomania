@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+
+import modelo.modeloVO.ClienteVO;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
@@ -21,7 +24,7 @@ public class InterfazPantallaCli extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InterfazPantallaCli() {
+	public InterfazPantallaCli(ClienteVO usuario) {
 		// Quita los botones de cerrar, minimizar y maximizar
             setUndecorated(true); 
             
@@ -55,6 +58,14 @@ public class InterfazPantallaCli extends JFrame {
             gbc_btnUsuario.gridx = 2;
             gbc_btnUsuario.gridy = 0;
             getContentPane().add(btnUsuario, gbc_btnUsuario);
+
+            btnUsuario.addActionListener(new ActionListener() {
+                  public void actionPerformed(ActionEvent e) {
+                        InterfazUsuarioCli interfazUsuarioCli = new InterfazUsuarioCli(usuario);
+                        interfazUsuarioCli.setVisible(true);
+                        dispose();
+                  }
+            });
             
             JButton btnDevolverProductos = new JButton("Devolver Productos");
             btnDevolverProductos.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -69,7 +80,7 @@ public class InterfazPantallaCli extends JFrame {
 
             btnDevolverProductos.addActionListener(new ActionListener() {
                   public void actionPerformed(ActionEvent e) {
-                        InterfazDevolverProductos interfazDevolverProductos = new InterfazDevolverProductos();
+                        InterfazDevolverProductos interfazDevolverProductos = new InterfazDevolverProductos(usuario);
                         interfazDevolverProductos.setVisible(true);
                         dispose();
                   }
@@ -88,7 +99,7 @@ public class InterfazPantallaCli extends JFrame {
 
             btnSacarProductos.addActionListener(new ActionListener() {
                   public void actionPerformed(ActionEvent e) {
-                        InterfazSacarProductos interfazSacarProductos = new InterfazSacarProductos();
+                        InterfazSacarProductos interfazSacarProductos = new InterfazSacarProductos(usuario);
                         interfazSacarProductos.setVisible(true);
                         dispose();
                   }
