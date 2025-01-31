@@ -16,6 +16,7 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import controlador.ControladorNuevoProducto;
+import modelo.modeloVO.UsuarioVO;
 
 import javax.swing.JPopupMenu;
 import javax.swing.ImageIcon;
@@ -35,7 +36,7 @@ public class InterfazIntroducirProducto extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InterfazIntroducirProducto() {
+	public InterfazIntroducirProducto(UsuarioVO usuarioVO) {
 		// Quita los botones de cerrar, minimizar y maximizar
         setUndecorated(true); 
         
@@ -67,7 +68,7 @@ public class InterfazIntroducirProducto extends JFrame {
         
         btnVolver.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		InterfazModificarCatalogo interfazModCat = new InterfazModificarCatalogo();
+        		InterfazModificarCatalogo interfazModCat = new InterfazModificarCatalogo(usuarioVO);
                 interfazModCat.setVisible(true);
                 dispose(); // Cierra la ventana actual
         	}
@@ -95,7 +96,7 @@ public class InterfazIntroducirProducto extends JFrame {
       	getContentPane().add(btnUsuario, gbc_btnUsuario);
 
       	JPopupMenu menuUsuario = new JPopupMenu();
-      	JMenuItem itemNombre = new JMenuItem(getName()); //Como obtiene el nombre de usuario??
+      	JMenuItem itemNombre = new JMenuItem(usuarioVO.getNombre()); 
       	itemNombre.setFont(new Font("Dialog", Font.BOLD, 15));
       	menuUsuario.add(itemNombre);
 
@@ -320,7 +321,7 @@ public class InterfazIntroducirProducto extends JFrame {
                     boolean creado = controlador.existeProducto(nombre);
                     if(!creado) {
                         controlador.crearProducto(nombre, categoria, genero, pegi);
-                        InterfazPantallaGes gestor = new InterfazPantallaGes();
+                        InterfazPantallaGes gestor = new InterfazPantallaGes(usuarioVO);
                         gestor.setVisible(true);
                         dispose(); // Cierra la ventana actual
                     }

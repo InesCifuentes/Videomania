@@ -12,6 +12,7 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 
 import controlador.ControladorInicioCli;
+import modelo.modeloVO.ClienteVO;
 
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
@@ -180,7 +181,8 @@ public class InterfazInicioCli extends JFrame {
                         lblErrorPas.setVisible(false);
                                 
                         //Se crea la siguiente ventana
-                        InterfazPantallaCli interfazPrincipalCli = new InterfazPantallaCli();
+                        ClienteVO usuarioVO = controlador.crearCliente(usuario);
+                        InterfazPantallaCli interfazPrincipalCli = new InterfazPantallaCli(usuarioVO);
                         interfazPrincipalCli.setVisible(true);
                         dispose(); // Cierra la ventana actual
 

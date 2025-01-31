@@ -21,6 +21,7 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import controlador.ControladorBuscarProducto;
+import modelo.modeloVO.ClienteVO;
 
 public class InterfazSacarProductos extends JFrame {
 
@@ -31,7 +32,7 @@ public class InterfazSacarProductos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InterfazSacarProductos() {
+	public InterfazSacarProductos(ClienteVO usuario) {
 		// Quita los botones de cerrar, minimizar y maximizar
         setUndecorated(true); 
         
@@ -56,7 +57,7 @@ public class InterfazSacarProductos extends JFrame {
       	JButton btnVolver = new JButton("< Volver");
       	btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-         		InterfazPantallaCli interfazPantallaCli = new InterfazPantallaCli();
+         		InterfazPantallaCli interfazPantallaCli = new InterfazPantallaCli(usuario);
             	interfazPantallaCli.setVisible(true);
             	dispose(); // Cierra la ventana actual
         	}
@@ -88,6 +89,14 @@ public class InterfazSacarProductos extends JFrame {
 		gbc_btnUsuario.gridx = 4;
 		gbc_btnUsuario.gridy = 0;
 		getContentPane().add(btnUsuario, gbc_btnUsuario);
+
+		btnUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InterfazUsuarioCli interfazUsuarioCli = new InterfazUsuarioCli(usuario);
+				interfazUsuarioCli.setVisible(true);
+				dispose();
+			}
+		});
 		
 		txtBuscarProducto = new JTextField();
 		txtBuscarProducto.setFont(new Font("Dialog", Font.PLAIN, 25));

@@ -15,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import modelo.modeloVO.ClienteVO;
+
 public class InterfazDevolverProductos extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -22,7 +24,7 @@ public class InterfazDevolverProductos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InterfazDevolverProductos() {
+	public InterfazDevolverProductos(ClienteVO usuario) {
 		// Quita los botones de cerrar, minimizar y maximizar
         setUndecorated(true); 
         
@@ -48,7 +50,7 @@ public class InterfazDevolverProductos extends JFrame {
       	JButton btnVolver = new JButton("< Volver");
       	btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-         		InterfazPantallaCli interfazPantallaCli = new InterfazPantallaCli();
+         		InterfazPantallaCli interfazPantallaCli = new InterfazPantallaCli(usuario);
             	interfazPantallaCli.setVisible(true);
             	dispose(); // Cierra la ventana actual
         	}
@@ -80,6 +82,14 @@ public class InterfazDevolverProductos extends JFrame {
 		gbc_btnUsuario.gridx = 3;
 		gbc_btnUsuario.gridy = 0;
 		getContentPane().add(btnUsuario, gbc_btnUsuario);
+
+		btnUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InterfazUsuarioCli interfazUsuarioCli = new InterfazUsuarioCli(usuario);
+				interfazUsuarioCli.setVisible(true);
+				dispose();
+			}
+		});
 
 		JLabel lblVideojuegosDevolver = new JLabel("Videojuegos a Devolver:\n");
 		lblVideojuegosDevolver.setFont(new Font("Dialog", Font.BOLD, 20));

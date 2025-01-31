@@ -31,5 +31,15 @@ public class ControladorInicioCli {
         }
         return false;
     }
+
+    public ClienteVO crearCliente(String usuario) {
+        for(ClienteVO cliente : usuarioDAO.obtenerClientes()) {
+        	if(usuario.equals(cliente.getNombre())) {
+        		return cliente;
+        	}
+        }
+        return null;
+        
+    }
     
 }

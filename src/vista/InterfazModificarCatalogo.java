@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+
+import modelo.modeloVO.UsuarioVO;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
@@ -23,7 +26,7 @@ public class InterfazModificarCatalogo extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InterfazModificarCatalogo() {
+	public InterfazModificarCatalogo(UsuarioVO usuarioVO) {
 		// Quita los botones de cerrar, minimizar y maximizar
       setUndecorated(true); 
         
@@ -47,7 +50,7 @@ public class InterfazModificarCatalogo extends JFrame {
       JButton btnVolver = new JButton("< Volver");
       btnVolver.addActionListener(new ActionListener() {
       	public void actionPerformed(ActionEvent e) {
-         	InterfazPantallaGes interfazPantallaGes = new InterfazPantallaGes();
+         	InterfazPantallaGes interfazPantallaGes = new InterfazPantallaGes(usuarioVO);
             interfazPantallaGes.setVisible(true);
             dispose(); // Cierra la ventana actual
         	}
@@ -81,7 +84,7 @@ public class InterfazModificarCatalogo extends JFrame {
       getContentPane().add(btnUsuario, gbc_btnUsuario);
 
       JPopupMenu menuUsuario = new JPopupMenu();
-      JMenuItem itemNombre = new JMenuItem(getName()); //Como obtiene el nombre de usuario??
+      JMenuItem itemNombre = new JMenuItem(usuarioVO.getNombre());
       itemNombre.setFont(new Font("Dialog", Font.BOLD, 15));
       menuUsuario.add(itemNombre);
 
@@ -125,7 +128,7 @@ public class InterfazModificarCatalogo extends JFrame {
       
       btnIntroducirProducto.addActionListener(new ActionListener() {
           public void actionPerformed(ActionEvent e) {
-              InterfazIntroducirProducto introducirProducto = new InterfazIntroducirProducto();
+              InterfazIntroducirProducto introducirProducto = new InterfazIntroducirProducto(usuarioVO);
               introducirProducto.setVisible(true);
               dispose();
           }
@@ -141,6 +144,14 @@ public class InterfazModificarCatalogo extends JFrame {
       gbc_btnEliminarProductos.insets = new Insets(0, 0, 5, 5);
       gbc_btnEliminarProductos.gridx = 1;
       getContentPane().add(btnEliminarProductos, gbc_btnEliminarProductos);
+
+      btnEliminarProductos.addActionListener(new ActionListener() {
+          public void actionPerformed(ActionEvent e) {
+              InterfazEliminarProducto eliminarProducto = new InterfazEliminarProducto(usuarioVO);
+              eliminarProducto.setVisible(true);
+              dispose();
+          }
+      });
         
      // Establecer el icono de la ventana
       ImageIcon icon = new ImageIcon(getClass().getResource("../imagenes/logo.png"));

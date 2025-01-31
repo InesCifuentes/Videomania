@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 import controlador.ControladorCrearCli;
+import modelo.modeloVO.ClienteVO;
 
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
@@ -241,7 +242,8 @@ public class InterfazCrearCli extends JFrame {
                             controlador.crearUsuario(usuario, password, edad);
                                 
                             //Se crea la siguiente ventana
-                            InterfazPantallaCli interfazPrincipalCli = new InterfazPantallaCli();
+                            ClienteVO usuarioVO = new ClienteVO(usuario, password, Integer.parseInt(edad));
+                            InterfazPantallaCli interfazPrincipalCli = new InterfazPantallaCli(usuarioVO);
                             interfazPrincipalCli.setVisible(true);
                             dispose(); // Cierra la ventana actual
 
