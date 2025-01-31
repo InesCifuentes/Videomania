@@ -1,0 +1,9 @@
+DELETE FROM Multa;
+DELETE FROM Devolucion;
+DELETE FROM Unidad_Producto;
+DELETE FROM Alquiler;
+DELETE FROM Cliente;
+DELETE FROM Gestor;
+DELETE FROM Producto;
+DELETE FROM Genero;
+DELETE FROM Categoria;

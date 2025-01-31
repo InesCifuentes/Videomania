@@ -35,10 +35,10 @@ CREATE TABLE Alquiler (
     Fecha_alquiler DATE NOT NULL,
     FOREIGN KEY (Nombre_cliente) REFERENCES Cliente(Nombre)
 );
-
 CREATE TABLE Multa (
     ID_multa INT PRIMARY KEY IDENTITY(1,1),
     ID_alquiler INT,
+    Cantidad DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (ID_alquiler) REFERENCES Alquiler(ID_alquiler)
 );
 

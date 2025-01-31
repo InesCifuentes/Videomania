@@ -146,168 +146,86 @@ public class PruebasBD {
         }
     }
 
-    public static void probarDevolucion(DevolucionDAO devolucionDAO) {
-        // Añadir devolución
-        DevolucionVO nuevaDevolucion = new DevolucionVO(1, 1, "2023-10-10");
-        boolean resultado = devolucionDAO.agregarDevolucion(nuevaDevolucion);
-        if (resultado) {
-            System.out.println("Devolución agregada con éxito");
-        } else {
-            System.out.println("Hubo un error al agregar la devolución");
+    public static void agregarCategoriasIniciales(CategoriaDAO categoriaDAO) {
+        ArrayList<CategoriaVO> categorias = categoriaDAO.obtenerCategorias();
+        if (categorias.stream().noneMatch(c -> c.getCategoria().equals("Película"))) {
+            CategoriaVO categoria1 = new CategoriaVO("Película");
+            categoriaDAO.agregarCategoria(categoria1);
         }
-
-        // Obtener y mostrar devoluciones
-        ArrayList<DevolucionVO> devoluciones = devolucionDAO.obtenerDevoluciones();
-        System.out.println("Número de devoluciones: " + devoluciones.size());
-        for (DevolucionVO devolucion : devoluciones) {
-            System.out.println("ID Devolución: " + devolucion.getIdDevolucion() + ", ID Alquiler: " + devolucion.getIdAlquiler() + ", Fecha Devolución: " + devolucion.getFechaDevolucion());
-        }
-
-        // Eliminar devolución
-        boolean resultado2 = devolucionDAO.eliminarDevolucion(1);
-        if (resultado2) {
-            System.out.println("Devolución eliminada con éxito");
-        } else {
-            System.out.println("Hubo un error al eliminar la devolución");
-        }
-
-        // Obtener y mostrar devoluciones
-        devoluciones = devolucionDAO.obtenerDevoluciones();
-        System.out.println("Número de devoluciones: " + devoluciones.size());
-        for (DevolucionVO devolucion : devoluciones) {
-            System.out.println("ID Devolución: " + devolucion.getIdDevolucion() + ", ID Alquiler: " + devolucion.getIdAlquiler() + ", Fecha Devolución: " + devolucion.getFechaDevolucion());
+        if (categorias.stream().noneMatch(c -> c.getCategoria().equals("Videojuego"))) {
+            CategoriaVO categoria2 = new CategoriaVO("Videojuego");
+            categoriaDAO.agregarCategoria(categoria2);
         }
     }
 
-    public static void probarMulta(MultaDAO multaDAO) {
-        // Añadir multa
-        MultaVO nuevaMulta = new MultaVO(1, 1);
-        boolean resultado = multaDAO.agregarMulta(nuevaMulta);
-        if (resultado) {
-            System.out.println("Multa agregada con éxito");
-        } else {
-            System.out.println("Hubo un error al agregar la multa");
+    public static void agregarGenerosIniciales(GeneroDAO generoDAO) {
+        ArrayList<GeneroVO> generos = generoDAO.obtenerGeneros();
+        if (generos.stream().noneMatch(g -> g.getGenero().equals("Comedia"))) {
+            GeneroVO genero1 = new GeneroVO("Comedia");
+            generoDAO.agregarGenero(genero1);
         }
-
-        // Obtener y mostrar multas
-        ArrayList<MultaVO> multas = multaDAO.obtenerMultas();
-        System.out.println("Número de multas: " + multas.size());
-        for (MultaVO multa : multas) {
-            System.out.println("ID Multa: " + multa.getIdMulta() + ", ID Alquiler: " + multa.getIdAlquiler());
+        if (generos.stream().noneMatch(g -> g.getGenero().equals("Acción"))) {
+            GeneroVO genero2 = new GeneroVO("Acción");
+            generoDAO.agregarGenero(genero2);
         }
-
-        // Eliminar multa
-        boolean resultado2 = multaDAO.eliminarMulta(1);
-        if (resultado2) {
-            System.out.println("Multa eliminada con éxito");
-        } else {
-            System.out.println("Hubo un error al eliminar la multa");
+        if (generos.stream().noneMatch(g -> g.getGenero().equals("Drama"))) {
+            GeneroVO genero3 = new GeneroVO("Drama");
+            generoDAO.agregarGenero(genero3);
         }
-
-        // Obtener y mostrar multas
-        multas = multaDAO.obtenerMultas();
-        System.out.println("Número de multas: " + multas.size());
-        for (MultaVO multa : multas) {
-            System.out.println("ID Multa: " + multa.getIdMulta() + ", ID Alquiler: " + multa.getIdAlquiler());
+        if (generos.stream().noneMatch(g -> g.getGenero().equals("Terror"))) {
+            GeneroVO genero4 = new GeneroVO("Terror");
+            generoDAO.agregarGenero(genero4);
+        }
+        if (generos.stream().noneMatch(g -> g.getGenero().equals("Ciencia Ficción"))) {
+            GeneroVO genero5 = new GeneroVO("Ciencia Ficción");
+            generoDAO.agregarGenero(genero5);
         }
     }
+    public static void agregarDatosIniciales(GestorDAO gestorDAO, ClienteDAO clienteDAO, CategoriaDAO categoriaDAO, GeneroDAO generoDAO, ProductoDAO productoDAO, AlquilerDAO alquilerDAO, Unidad_ProductoDAO unidadProductoDAO, MultaDAO multaDAO, DevolucionDAO devolucionDAO) {
+    	// Añadir gestor
+        gestorDAO.agregarGestor("Juan", "1234");
+    	
+    	// Añadir cliente
+        clienteDAO.agregarCliente("Carlos", "5678", 25);
 
-    public static void probarProducto(ProductoDAO productoDAO) {
+        // Añadir categoría
+        CategoriaVO categoria = new CategoriaVO("Documental");
+        categoriaDAO.agregarCategoria(categoria);
+
+        // Añadir género
+        GeneroVO genero = new GeneroVO("Documental");
+        generoDAO.agregarGenero(genero);
+
         // Añadir producto
-        ProductoVO nuevoProducto = new ProductoVO("Producto1", "Acción", "Comedia", 18, 19.99);
-        boolean resultado = productoDAO.agregarProducto(nuevoProducto);
-        if (resultado) {
-            System.out.println("Producto agregado con éxito");
-        } else {
-            System.out.println("Hubo un error al agregar el producto");
-        }
+        ProductoVO producto = new ProductoVO("Documental1", "Documental", "Documental", 12, 9.99);
+        productoDAO.agregarProducto(producto);
 
-        // Obtener y mostrar productos
-        ArrayList<ProductoVO> productos = productoDAO.obtenerProductos();
-        System.out.println("Número de productos: " + productos.size());
-        for (ProductoVO producto : productos) {
-            System.out.println("Nombre Producto: " + producto.getNombreProducto() + ", Categoría: " + producto.getCategoria() + ", Género: " + producto.getGenero() + ", PEGI: " + producto.getPegi() + ", Precio: " + producto.getPrecio());
-        }
-
-        // Eliminar producto
-        boolean resultado2 = productoDAO.eliminarProducto("Producto1");
-        if (resultado2) {
-            System.out.println("Producto eliminado con éxito");
-        } else {
-            System.out.println("Hubo un error al eliminar el producto");
-        }
-
-        // Obtener y mostrar productos
-        productos = productoDAO.obtenerProductos();
-        System.out.println("Número de productos: " + productos.size());
-        for (ProductoVO producto : productos) {
-            System.out.println("Nombre Producto: " + producto.getNombreProducto() + ", Categoría: " + producto.getCategoria() + ", Género: " + producto.getGenero() + ", PEGI: " + producto.getPegi() + ", Precio: " + producto.getPrecio());
-        }
-    }
-
-    public static void probarUnidadProducto(Unidad_ProductoDAO unidadProductoDAO) {
-        // Añadir unidad de producto
-        Unidad_ProductoVO nuevaUnidadProducto = new Unidad_ProductoVO(1, "Producto1", 1, "Disponible");
-        boolean resultado = unidadProductoDAO.agregarUnidadProducto(nuevaUnidadProducto);
-        if (resultado) {
-            System.out.println("Unidad de producto agregada con éxito");
-        } else {
-            System.out.println("Hubo un error al agregar la unidad de producto");
-        }
-
-        // Obtener y mostrar unidades de producto
-        ArrayList<Unidad_ProductoVO> unidadesProducto = unidadProductoDAO.obtenerUnidadesProducto();
-        System.out.println("Número de unidades de producto: " + unidadesProducto.size());
-        for (Unidad_ProductoVO unidadProducto : unidadesProducto) {
-            System.out.println("ID Unidad Producto: " + unidadProducto.getId() + ", Nombre Producto: " + unidadProducto.getNombreProducto() + ", ID Alquiler: " + unidadProducto.getIdAlquiler() + ", Estado: " + unidadProducto.getEstado());
-        }
-
-        // Eliminar unidad de producto
-        boolean resultado2 = unidadProductoDAO.eliminarUnidadProducto(1);
-        if (resultado2) {
-            System.out.println("Unidad de producto eliminada con éxito");
-        } else {
-            System.out.println("Hubo un error al eliminar la unidad de producto");
-        }
-
-        // Obtener y mostrar unidades de producto
-        unidadesProducto = unidadProductoDAO.obtenerUnidadesProducto();
-        System.out.println("Número de unidades de producto: " + unidadesProducto.size());
-        for (Unidad_ProductoVO unidadProducto : unidadesProducto) {
-            System.out.println("ID Unidad Producto: " + unidadProducto.getId() + ", Nombre Producto: " + unidadProducto.getNombreProducto() + ", ID Alquiler: " + unidadProducto.getIdAlquiler() + ", Estado: " + unidadProducto.getEstado());
-        }
-    }
-
-    public static void probarAlquiler(AlquilerDAO alquilerDAO) {
         // Añadir alquiler
-        AlquilerVO nuevoAlquiler = new AlquilerVO(1, "Juan", "2023-10-10");
-        boolean resultado = alquilerDAO.agregarAlquiler(nuevoAlquiler);
-        if (resultado) {
-            System.out.println("Alquiler agregado con éxito");
-        } else {
-            System.out.println("Hubo un error al agregar el alquiler");
-        }
+        AlquilerVO alquiler = new AlquilerVO(5, "Carlos", "2023-10-11");
+        alquilerDAO.agregarAlquiler(alquiler);
 
-        // Obtener y mostrar alquileres
+        // Recuperar alquiler y guardar su id
         ArrayList<AlquilerVO> alquileres = alquilerDAO.obtenerAlquileres();
-        System.out.println("Número de alquileres: " + alquileres.size());
-        for (AlquilerVO alquiler : alquileres) {
-            System.out.println("ID Alquiler: " + alquiler.getIdAlquiler() + ", Nombre Cliente: " + alquiler.getNombreCliente() + ", Fecha Alquiler: " + alquiler.getFechaAlquiler());
+        int idAlquiler = -1;
+        for (AlquilerVO a : alquileres) {
+            if (a.getNombreCliente().equals("Carlos") && a.getFechaAlquiler().equals("2023-10-11")) {
+            idAlquiler = a.getIdAlquiler();
+            break;
+            }
         }
 
-        // Eliminar alquiler
-        boolean resultado2 = alquilerDAO.eliminarAlquiler(1);
-        if (resultado2) {
-            System.out.println("Alquiler eliminado con éxito");
-        } else {
-            System.out.println("Hubo un error al eliminar el alquiler");
-        }
+        // Añadir unidad de producto
+        Unidad_ProductoVO unidadProducto = new Unidad_ProductoVO(1, "Documental1", idAlquiler, "Disponible");
+        unidadProductoDAO.agregarUnidadProducto(unidadProducto);
 
-        // Obtener y mostrar alquileres
-        alquileres = alquilerDAO.obtenerAlquileres();
-        System.out.println("Número de alquileres: " + alquileres.size());
-        for (AlquilerVO alquiler : alquileres) {
-            System.out.println("ID Alquiler: " + alquiler.getIdAlquiler() + ", Nombre Cliente: " + alquiler.getNombreCliente() + ", Fecha Alquiler: " + alquiler.getFechaAlquiler());
-        }
+        // Añadir multa
+        MultaVO multa = new MultaVO(2, idAlquiler, 15.0);
+        multaDAO.agregarMulta(multa);
+
+        // Añadir devolución
+        DevolucionVO devolucion = new DevolucionVO(4, idAlquiler, "2023-10-12");
+        devolucionDAO.agregarDevolucion(devolucion);
+
+        System.out.println("Datos iniciales agregados con éxito");
     }
 }
