@@ -26,6 +26,6 @@ public class ControladorPrincipal {
         //InterfazPrincipal interfazPrincipal = new InterfazPrincipal();
     
         // PRUEBAS DE BASE DE DATOS
-        PruebasBD.agregarDatosIniciales(gestorDAO, clienteDAO, categoriaDAO, generoDAO, productoDAO, alquilerDAO, unidadProductoDAO, multaDAO, devolucionDAO);
+        //PruebasBD.agregarDatosIniciales(gestorDAO, clienteDAO, categoriaDAO, generoDAO, productoDAO, alquilerDAO, unidadProductoDAO, multaDAO, devolucionDAO);
     }
 }
