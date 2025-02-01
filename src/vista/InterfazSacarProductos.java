@@ -16,12 +16,18 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import controlador.ControladorAlquilaProducto;
 import controlador.ControladorBuscarProducto;
+import controlador.ControladorTodosLosProductos;
 import modelo.modeloVO.ClienteVO;
+import modelo.modeloVO.ProductoVO;
 
 public class InterfazSacarProductos extends JFrame {
 
@@ -32,7 +38,7 @@ public class InterfazSacarProductos extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public InterfazSacarProductos(ClienteVO usuario) {
+	public InterfazSacarProductos(ClienteVO usuarioVO) {
 		// Quita los botones de cerrar, minimizar y maximizar
         setUndecorated(true); 
         
@@ -42,22 +48,44 @@ public class InterfazSacarProductos extends JFrame {
       	int width = (int) pantalla.getWidth();
       	int height = (int) pantalla.getHeight();
 
-      	int partH = height / 3;
+      	int partH = height / 6;
 		int partW = width / 4;
        
       	setSize(pantalla);
 
       	GridBagLayout gridBagLayout = new GridBagLayout();
       	gridBagLayout.columnWidths = new int[]{partW/2, partW, partW, partW, partW/2};
-      	gridBagLayout.rowHeights = new int[]{partH/8, partH/4, partH/6, partH/2, partH-partH/12};
+      	gridBagLayout.rowHeights = new int[]{partH, partH/2, partH/2, 4*partH-partH/2};
       	gridBagLayout.columnWeights = new double[]{0.0, 1.0};
       	gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0};
       	getContentPane().setLayout(gridBagLayout);
 
+		// Crear un panel para los productos
+        JPanel panelProductos = new JPanel();
+        panelProductos.setLayout(new GridBagLayout());
+        GridBagConstraints gbc_panelProductos = new GridBagConstraints();
+        gbc_panelProductos.gridx = 1;
+        gbc_panelProductos.gridy = 1;
+        gbc_panelProductos.gridwidth = 3;
+        gbc_panelProductos.fill = GridBagConstraints.BOTH;
+        gbc_panelProductos.weightx = 1.0;
+        gbc_panelProductos.weighty = 1.0;
+
+        // Crear un JScrollPane y agregar el panel de productos
+		JScrollPane scrollPane = new JScrollPane(panelProductos);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 3;
+		gbc_scrollPane.gridwidth = 5;
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		getContentPane().add(scrollPane, gbc_scrollPane);
+		scrollPane.setVisible(true);
+
       	JButton btnVolver = new JButton("< Volver");
       	btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-         		InterfazPantallaCli interfazPantallaCli = new InterfazPantallaCli(usuario);
+         		InterfazPantallaCli interfazPantallaCli = new InterfazPantallaCli(usuarioVO);
             	interfazPantallaCli.setVisible(true);
             	dispose(); // Cierra la ventana actual
         	}
@@ -92,7 +120,7 @@ public class InterfazSacarProductos extends JFrame {
 
 		btnUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InterfazUsuarioCli interfazUsuarioCli = new InterfazUsuarioCli(usuario);
+				InterfazUsuarioCli interfazUsuarioCli = new InterfazUsuarioCli(usuarioVO);
 				interfazUsuarioCli.setVisible(true);
 				dispose();
 			}
@@ -101,7 +129,6 @@ public class InterfazSacarProductos extends JFrame {
 		txtBuscarProducto = new JTextField();
 		txtBuscarProducto.setFont(new Font("Dialog", Font.PLAIN, 25));
 		txtBuscarProducto.setText("Buscar producto...");
-		//txtBuscarProducto.setSize(pantalla.width/2, 50);
 		txtBuscarProducto.setPreferredSize(new Dimension(partW, 50));
 		txtBuscarProducto.setMinimumSize(new Dimension(partW, 50));
 		txtBuscarProducto.setMaximumSize(new Dimension(partW, 50));
@@ -121,7 +148,7 @@ public class InterfazSacarProductos extends JFrame {
         gbc_lblErrorNoProductos.anchor = GridBagConstraints.SOUTH;
         gbc_lblErrorNoProductos.insets = new Insets(0, 0, 5, 5);
         gbc_lblErrorNoProductos.gridx = 2;
-        gbc_lblErrorNoProductos.gridy = 3;
+        gbc_lblErrorNoProductos.gridy = 2;
         getContentPane().add(lblErrorNoProductos, gbc_lblErrorNoProductos);
          
 		JButton btnBuscar = new JButton("Buscar");
@@ -140,14 +167,123 @@ public class InterfazSacarProductos extends JFrame {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ControladorBuscarProducto controladorBuscarProducto = new ControladorBuscarProducto();
-				ArrayList<String> productos = controladorBuscarProducto.buscarProducto(txtBuscarProducto.getText());
+				ArrayList<ProductoVO> productos = controladorBuscarProducto.buscarProducto(txtBuscarProducto.getText());
+
 				if(productos.size() == 0) {
 					//Mostrar mensaje de que no se ha encontrado el producto
 					lblErrorNoProductos.setVisible(true);
+					panelProductos.removeAll(); // Eliminar todos los componentes del panel
+					panelProductos.revalidate(); // Volver a validar el panel
+					panelProductos.repaint(); // Repintar el panel
+
+					ControladorTodosLosProductos controladorTodosLosProductos = new ControladorTodosLosProductos();
+					ArrayList<ProductoVO> productosVO = controladorTodosLosProductos.obtenerProductos();
+					int gridY = 0;
+					for(ProductoVO productoVO : productosVO) {
+						JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
+						lblProducto.setOpaque(true);
+						lblProducto.setBackground(new Color(147, 112, 219));
+						lblProducto.setForeground(Color.BLACK);
+						lblProducto.setFont(new Font("Dialog", Font.BOLD, 17));
+						lblProducto.setPreferredSize(new Dimension(350, 50));
+						lblProducto.setMinimumSize(new Dimension(350, 50));
+						lblProducto.setMaximumSize(new Dimension(350, 50));
+						lblProducto.setHorizontalAlignment(SwingConstants.CENTER);
+						lblProducto.setVerticalAlignment(SwingConstants.CENTER);
+						GridBagConstraints gbc_lblProducto = new GridBagConstraints();
+						gbc_lblProducto.anchor = GridBagConstraints.CENTER;
+						gbc_lblProducto.insets = new Insets(0, 0, 5, 5);
+						gbc_lblProducto.gridx = 1;
+						gbc_lblProducto.gridy = gridY;
+						panelProductos.add(lblProducto, gbc_lblProducto);
+
+						JButton btnSeleccionar = new JButton("Seleccionar");
+						btnSeleccionar.setBackground(new Color(0, 191, 255));
+						btnSeleccionar.setForeground(Color.BLACK);
+						btnSeleccionar.setFont(new Font("Dialog", Font.BOLD, 17));
+						btnSeleccionar.setPreferredSize(new Dimension(150, 50));
+						btnSeleccionar.setMinimumSize(new Dimension(150, 50));
+						btnSeleccionar.setMaximumSize(new Dimension(150, 50));
+						GridBagConstraints gbc_btnSeleccionar = new GridBagConstraints();
+						gbc_btnSeleccionar.anchor = GridBagConstraints.EAST;
+						gbc_btnSeleccionar.insets = new Insets(0, 0, 5, 5);
+						gbc_btnSeleccionar.gridx = 2;
+						gbc_btnSeleccionar.gridy = gridY;
+						panelProductos.add(btnSeleccionar, gbc_btnSeleccionar);
+
+						btnSeleccionar.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								btnSeleccionar.setText("Seleccionado");
+								btnSeleccionar.setBackground(new Color(0, 0, 205));
+								btnSeleccionar.setForeground(Color.WHITE);
+								ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
+								controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+							}
+						});
+
+						gridY++;
+					}
+
+					panelProductos.revalidate(); // Volver a validar el panel después de agregar los nuevos componentes
+					panelProductos.repaint(); // Repintar el panel después de agregar los nuevos componentes
+
 				}
 				else {
 					lblErrorNoProductos.setVisible(false);
+					
 					//MOSTRAR LOS PRODUCTOS QUE OBTIENE EL CONTROLADOR ALMACENADOS EN EL ARRAYLIST
+					panelProductos.removeAll(); // Eliminar todos los componentes del panel
+					panelProductos.revalidate(); // Volver a validar el panel
+					panelProductos.repaint(); // Repintar el panel
+
+					int gridY = 0;
+					for(ProductoVO productoVO : productos) {
+						JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
+						lblProducto.setOpaque(true);
+						lblProducto.setBackground(new Color(147, 112, 219));
+						lblProducto.setForeground(Color.BLACK);
+						lblProducto.setFont(new Font("Dialog", Font.BOLD, 17));
+						lblProducto.setPreferredSize(new Dimension(350, 50));
+						lblProducto.setMinimumSize(new Dimension(350, 50));
+						lblProducto.setMaximumSize(new Dimension(350, 50));
+						lblProducto.setHorizontalAlignment(SwingConstants.CENTER);
+						lblProducto.setVerticalAlignment(SwingConstants.CENTER);
+						GridBagConstraints gbc_lblProducto = new GridBagConstraints();
+						gbc_lblProducto.anchor = GridBagConstraints.CENTER;
+						gbc_lblProducto.insets = new Insets(0, 0, 5, 5);
+						gbc_lblProducto.gridx = 1;
+						gbc_lblProducto.gridy = gridY;
+						panelProductos.add(lblProducto, gbc_lblProducto);
+
+						JButton btnSeleccionar = new JButton("Seleccionar");
+						btnSeleccionar.setBackground(new Color(0, 191, 255));
+						btnSeleccionar.setForeground(Color.BLACK);
+						btnSeleccionar.setFont(new Font("Dialog", Font.BOLD, 17));
+						btnSeleccionar.setPreferredSize(new Dimension(150, 50));
+						btnSeleccionar.setMinimumSize(new Dimension(150, 50));
+						btnSeleccionar.setMaximumSize(new Dimension(150, 50));
+						GridBagConstraints gbc_btnSeleccionar = new GridBagConstraints();
+						gbc_btnSeleccionar.anchor = GridBagConstraints.EAST;
+						gbc_btnSeleccionar.insets = new Insets(0, 0, 5, 5);
+						gbc_btnSeleccionar.gridx = 2;
+						gbc_btnSeleccionar.gridy = gridY;
+						panelProductos.add(btnSeleccionar, gbc_btnSeleccionar);
+						
+						btnSeleccionar.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								btnSeleccionar.setText("Seleccionado");
+								btnSeleccionar.setBackground(new Color(0, 0, 205));
+								btnSeleccionar.setForeground(Color.WHITE);
+								ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
+								controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+							}
+						});
+
+						gridY++;
+					}
+					
+					panelProductos.revalidate(); // Volver a validar el panel después de agregar los nuevos componentes
+					panelProductos.repaint(); // Repintar el panel después de agregar los nuevos componentes
 
 				}
 			}
@@ -161,7 +297,8 @@ public class InterfazSacarProductos extends JFrame {
 		    @Override
         	public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
     	        if(comboBoxCategoria.getItemCount() == 1) {
-    		        String[] categorias = {"Videojuego", "Película"};
+					ControladorBuscarProducto controladorBuscarProducto = new ControladorBuscarProducto();
+    		        String[] categorias = controladorBuscarProducto.obtenerCategorias();
         		    for (String categoria : categorias) {
         	            comboBoxCategoria.addItem(categoria);
     	            }
@@ -191,15 +328,66 @@ public class InterfazSacarProductos extends JFrame {
 		
 		comboBoxCategoria.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				lblErrorNoProductos.setVisible(false);
+
 				String categoria = (String) comboBoxCategoria.getSelectedItem();
 				ControladorBuscarProducto controladorBuscarProducto = new ControladorBuscarProducto();
-				ArrayList<String> productosCat = controladorBuscarProducto.buscarProductoCategoria(categoria);
-				
-				if(categoria.equals("Todos")) {
-					
-					//MOSTRAR TODOS LOS PRODUCTOS SE ENCUENTRA EN EL ARRAYLIST productosCat
-				}
-				else {
+				ArrayList<ProductoVO> productosCat = controladorBuscarProducto.buscarProductoCategoria(categoria);
+
+				if(!categoria.equals("Todos")) {
+					panelProductos.removeAll(); // Eliminar todos los componentes del panel
+					panelProductos.revalidate(); // Volver a validar el panel
+					panelProductos.repaint(); // Repintar el panel
+
+					int gridY = 0;
+					for(ProductoVO productoVO : productosCat) {
+						JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
+						lblProducto.setOpaque(true);
+						lblProducto.setBackground(new Color(147, 112, 219));
+						lblProducto.setForeground(Color.BLACK);
+						lblProducto.setFont(new Font("Dialog", Font.BOLD, 17));
+						lblProducto.setPreferredSize(new Dimension(350, 50));
+						lblProducto.setMinimumSize(new Dimension(350, 50));
+						lblProducto.setMaximumSize(new Dimension(350, 50));
+						lblProducto.setHorizontalAlignment(SwingConstants.CENTER);
+						lblProducto.setVerticalAlignment(SwingConstants.CENTER);
+						GridBagConstraints gbc_lblProducto = new GridBagConstraints();
+						gbc_lblProducto.anchor = GridBagConstraints.CENTER;
+						gbc_lblProducto.insets = new Insets(0, 0, 5, 5);
+						gbc_lblProducto.gridx = 1;
+						gbc_lblProducto.gridy = gridY;
+						panelProductos.add(lblProducto, gbc_lblProducto);
+
+						JButton btnSeleccionar = new JButton("Seleccionar");
+						btnSeleccionar.setBackground(new Color(0, 191, 255));
+						btnSeleccionar.setForeground(Color.BLACK);
+						btnSeleccionar.setFont(new Font("Dialog", Font.BOLD, 17));
+						btnSeleccionar.setPreferredSize(new Dimension(150, 50));
+						btnSeleccionar.setMinimumSize(new Dimension(150, 50));
+						btnSeleccionar.setMaximumSize(new Dimension(150, 50));
+						GridBagConstraints gbc_btnSeleccionar = new GridBagConstraints();
+						gbc_btnSeleccionar.anchor = GridBagConstraints.EAST;
+						gbc_btnSeleccionar.insets = new Insets(0, 0, 5, 5);
+						gbc_btnSeleccionar.gridx = 2;
+						gbc_btnSeleccionar.gridy = gridY;
+						panelProductos.add(btnSeleccionar, gbc_btnSeleccionar);
+
+						btnSeleccionar.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								btnSeleccionar.setText("Seleccionado");
+								btnSeleccionar.setBackground(new Color(0, 0, 205));
+								btnSeleccionar.setForeground(Color.WHITE);
+								ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
+								controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+							}
+						});
+
+						gridY++;
+					}
+								
+					panelProductos.revalidate(); // Volver a validar el panel después de agregar los nuevos componentes
+					panelProductos.repaint(); // Repintar el panel después de agregar los nuevos componentes
+
 					JComboBox<String> comboBoxGenero = new JComboBox<>();
 					comboBoxGenero.addItem("Todos");
 					comboBoxGenero.setFont(new Font("Dialog", Font.PLAIN, 20));
@@ -208,7 +396,7 @@ public class InterfazSacarProductos extends JFrame {
 						@Override
 						public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 							if(comboBoxGenero.getItemCount() == 1) {
-								String[] generos = {"Drama", "Terror", "Comedia", "Accion", "Ciencia Ficcion", "Biografico"};
+								String[] generos = controladorBuscarProducto.obtenerGeneros();
 								for (String genero : generos) {
 									comboBoxGenero.addItem(genero);
 								}
@@ -228,6 +416,18 @@ public class InterfazSacarProductos extends JFrame {
 
 						
 					});
+					// Eliminar el comboBoxCategoria del contentPane
+					getContentPane().remove(comboBoxCategoria);
+					btnBuscar.setVisible(false);
+					txtBuscarProducto.setVisible(false);
+
+					// Volver a validar y repintar el contentPane para reflejar los cambios
+					getContentPane().revalidate();
+					getContentPane().repaint();
+					gbc_comboBoxCategoria.gridx = 1;
+					gbc_comboBoxCategoria.gridy = 1;
+					getContentPane().add(comboBoxCategoria, gbc_comboBoxCategoria);
+					comboBoxCategoria.setVisible(true);
 							
 					GridBagConstraints gbc_comboBoxGenero = new GridBagConstraints();
 					gbc_comboBoxGenero.insets = new Insets(0, 0, 5, 5);
@@ -235,33 +435,138 @@ public class InterfazSacarProductos extends JFrame {
 					gbc_comboBoxGenero.gridx = 3;
 					gbc_comboBoxGenero.gridy = 1;
 					getContentPane().add(comboBoxGenero, gbc_comboBoxGenero);
+					comboBoxGenero.setVisible(true);
 
 					comboBoxGenero.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							String genero = (String) comboBoxGenero.getSelectedItem();
-							ArrayList<String> productosGen = controladorBuscarProducto.buscarProductoGenero(genero);
 							if(genero.equals("Todos")) {
-								if(categoria.equals("Videojuego")) {
+								lblErrorNoProductos.setVisible(false);
+								//MOSTRAR LOS PRODUCTOS DE VIDEOJUEGO SE ENCUENTRA EN EL ARRAYLIST productosCat
+								panelProductos.removeAll(); // Eliminar todos los componentes del panel
+								panelProductos.revalidate(); // Volver a validar el panel
+								panelProductos.repaint(); // Repintar el panel
 
-					
-									//MOSTRAR LOS PRODUCTOS DE VIDEOJUEGO SE ENCUENTRA EN EL ARRAYLIST productosCat
-								}
-								else {
-									
-									//MOSTRAR LOS PRODUCTOS DE PELICULA SE ENCUENTRA EN EL ARRAYLIST productosCat
+								int gridY = 0;
+								for(ProductoVO productoVO : productosCat) {
+									JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
+									lblProducto.setOpaque(true);
+									lblProducto.setBackground(new Color(147, 112, 219));
+									lblProducto.setForeground(Color.BLACK);
+									lblProducto.setFont(new Font("Dialog", Font.BOLD, 17));
+									lblProducto.setPreferredSize(new Dimension(350, 50));
+									lblProducto.setMinimumSize(new Dimension(350, 50));
+									lblProducto.setMaximumSize(new Dimension(350, 50));
+									lblProducto.setHorizontalAlignment(SwingConstants.CENTER);
+									lblProducto.setVerticalAlignment(SwingConstants.CENTER);
+									GridBagConstraints gbc_lblProducto = new GridBagConstraints();
+									gbc_lblProducto.anchor = GridBagConstraints.CENTER;
+									gbc_lblProducto.insets = new Insets(0, 0, 5, 5);
+									gbc_lblProducto.gridx = 1;
+									gbc_lblProducto.gridy = gridY;
+									panelProductos.add(lblProducto, gbc_lblProducto);
+
+									JButton btnSeleccionar = new JButton("Seleccionar");
+									btnSeleccionar.setBackground(new Color(0, 191, 255));
+									btnSeleccionar.setForeground(Color.BLACK);
+									btnSeleccionar.setFont(new Font("Dialog", Font.BOLD, 17));
+									btnSeleccionar.setPreferredSize(new Dimension(150, 50));
+									btnSeleccionar.setMinimumSize(new Dimension(150, 50));
+									btnSeleccionar.setMaximumSize(new Dimension(150, 50));
+									GridBagConstraints gbc_btnSeleccionar = new GridBagConstraints();
+									gbc_btnSeleccionar.anchor = GridBagConstraints.EAST;
+									gbc_btnSeleccionar.insets = new Insets(0, 0, 5, 5);
+									gbc_btnSeleccionar.gridx = 2;
+									gbc_btnSeleccionar.gridy = gridY;
+									panelProductos.add(btnSeleccionar, gbc_btnSeleccionar);
+
+									btnSeleccionar.addActionListener(new ActionListener() {
+										public void actionPerformed(ActionEvent e) {
+											btnSeleccionar.setText("Seleccionado");
+											btnSeleccionar.setBackground(new Color(0, 0, 205));
+											btnSeleccionar.setForeground(Color.WHITE);
+											ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
+											controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+										}
+									});
+
+									gridY++;
 								}
 								
-								
+								panelProductos.revalidate(); // Volver a validar el panel después de agregar los nuevos componentes
+								panelProductos.repaint(); // Repintar el panel después de agregar los nuevos componentes
 							}
 							else {
-								ArrayList<String> prodGenyCat = new ArrayList<>();
-								for(String producto : productosGen) {
-									if(productosCat.contains(producto)) {
-										prodGenyCat.add(producto);
+								ArrayList<ProductoVO> productosGen = controladorBuscarProducto.buscarProductoGenero(genero);
+								ArrayList<ProductoVO> prodGenyCat = new ArrayList<>();
+								for(ProductoVO productoGen : productosGen) {
+									for(ProductoVO productoCat : productosCat) {
+										if(productoCat.getNombreProducto().equals(productoGen.getNombreProducto())) {
+											prodGenyCat.add(productoGen);
+										}
 									}
 								}
+								
+								panelProductos.removeAll(); // Eliminar todos los componentes del panel
+								panelProductos.revalidate(); // Volver a validar el panel
+								panelProductos.repaint(); // Repintar el panel
 
-								//MOSTRAR LOS PRODUCTOS QUE SE ENCUENTRAN EN EL ARRAYLIST prodGenyCat
+								if(prodGenyCat.size() == 0) {
+									lblErrorNoProductos.setVisible(true);
+								}
+								else {
+									lblErrorNoProductos.setVisible(false);
+									//MOSTRAR LOS PRODUCTOS QUE SE ENCUENTRAN EN EL ARRAYLIST prodGenyCat
+									int gridY = 0;
+									for(ProductoVO productoVO : prodGenyCat) {
+										JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
+										lblProducto.setOpaque(true);
+										lblProducto.setBackground(new Color(147, 112, 219));
+										lblProducto.setForeground(Color.BLACK);
+										lblProducto.setFont(new Font("Dialog", Font.BOLD, 17));
+										lblProducto.setPreferredSize(new Dimension(350, 50));
+										lblProducto.setMinimumSize(new Dimension(350, 50));
+										lblProducto.setMaximumSize(new Dimension(350, 50));
+										lblProducto.setHorizontalAlignment(SwingConstants.CENTER);
+										lblProducto.setVerticalAlignment(SwingConstants.CENTER);
+										GridBagConstraints gbc_lblProducto = new GridBagConstraints();
+										gbc_lblProducto.anchor = GridBagConstraints.CENTER;
+										gbc_lblProducto.insets = new Insets(0, 0, 5, 5);
+										gbc_lblProducto.gridx = 1;
+										gbc_lblProducto.gridy = gridY;
+										panelProductos.add(lblProducto, gbc_lblProducto);
+
+										JButton btnSeleccionar = new JButton("Seleccionar");
+										btnSeleccionar.setBackground(new Color(0, 191, 255));
+										btnSeleccionar.setForeground(Color.BLACK);
+										btnSeleccionar.setFont(new Font("Dialog", Font.BOLD, 17));
+										btnSeleccionar.setPreferredSize(new Dimension(150, 50));
+										btnSeleccionar.setMinimumSize(new Dimension(150, 50));
+										btnSeleccionar.setMaximumSize(new Dimension(150, 50));
+										GridBagConstraints gbc_btnSeleccionar = new GridBagConstraints();
+										gbc_btnSeleccionar.anchor = GridBagConstraints.EAST;
+										gbc_btnSeleccionar.insets = new Insets(0, 0, 5, 5);
+										gbc_btnSeleccionar.gridx = 2;
+										gbc_btnSeleccionar.gridy = gridY;
+										panelProductos.add(btnSeleccionar, gbc_btnSeleccionar);
+
+										btnSeleccionar.addActionListener(new ActionListener() {
+											public void actionPerformed(ActionEvent e) {
+												btnSeleccionar.setText("Seleccionado");
+												btnSeleccionar.setBackground(new Color(0, 0, 205));
+												btnSeleccionar.setForeground(Color.WHITE);
+												ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
+												controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+											}
+										});
+
+										gridY++;
+									}
+									
+									panelProductos.revalidate(); // Volver a validar el panel después de agregar los nuevos componentes
+									panelProductos.repaint(); // Repintar el panel después de agregar los nuevos componentes
+								
+								}
 							}
 						}
 					});
@@ -271,8 +576,60 @@ public class InterfazSacarProductos extends JFrame {
 		});
 
 		//SE MUESTRAN SIEMPRE TODOS LOS PRODUCTOS
+		panelProductos.removeAll(); // Eliminar todos los componentes del panel
+		panelProductos.revalidate(); // Volver a validar el panel
+		panelProductos.repaint(); // Repintar el panel
 
-		
+		ControladorTodosLosProductos controladorTodosLosProductos = new ControladorTodosLosProductos();
+		ArrayList<ProductoVO> productosVO = controladorTodosLosProductos.obtenerProductos();
+		int gridY = 0;
+		for(ProductoVO productoVO : productosVO) {
+			JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
+			lblProducto.setOpaque(true);
+			lblProducto.setBackground(new Color(147, 112, 219));
+			lblProducto.setForeground(Color.BLACK);
+			lblProducto.setFont(new Font("Dialog", Font.BOLD, 17));
+			lblProducto.setPreferredSize(new Dimension(350, 50));
+			lblProducto.setMinimumSize(new Dimension(350, 50));
+			lblProducto.setMaximumSize(new Dimension(350, 50));
+			lblProducto.setHorizontalAlignment(SwingConstants.CENTER);
+			lblProducto.setVerticalAlignment(SwingConstants.CENTER);
+			GridBagConstraints gbc_lblProducto = new GridBagConstraints();
+			gbc_lblProducto.anchor = GridBagConstraints.CENTER;
+			gbc_lblProducto.insets = new Insets(0, 0, 5, 5);
+			gbc_lblProducto.gridx = 1;
+			gbc_lblProducto.gridy = gridY;
+			panelProductos.add(lblProducto, gbc_lblProducto);
+
+			JButton btnSeleccionar = new JButton("Seleccionar");
+			btnSeleccionar.setBackground(new Color(0, 191, 255));
+			btnSeleccionar.setForeground(Color.BLACK);
+			btnSeleccionar.setFont(new Font("Dialog", Font.BOLD, 17));
+			btnSeleccionar.setPreferredSize(new Dimension(150, 50));
+			btnSeleccionar.setMinimumSize(new Dimension(150, 50));
+			btnSeleccionar.setMaximumSize(new Dimension(150, 50));
+			GridBagConstraints gbc_btnSeleccionar = new GridBagConstraints();
+			gbc_btnSeleccionar.anchor = GridBagConstraints.EAST;
+			gbc_btnSeleccionar.insets = new Insets(0, 0, 5, 5);
+			gbc_btnSeleccionar.gridx = 2;
+			gbc_btnSeleccionar.gridy = gridY;
+			panelProductos.add(btnSeleccionar, gbc_btnSeleccionar);
+
+			btnSeleccionar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					btnSeleccionar.setText("Seleccionado");
+					btnSeleccionar.setBackground(new Color(0, 0, 205));
+					btnSeleccionar.setForeground(Color.WHITE);
+					ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
+					controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+				}
+			});
+
+			gridY++;
+		}
+
+		panelProductos.revalidate(); // Volver a validar el panel después de agregar los nuevos componentes
+		panelProductos.repaint(); // Repintar el panel después de agregar los nuevos componentes
 
 		// Establecer el icono de la ventana
 	      ImageIcon icon = new ImageIcon(getClass().getResource("../imagenes/logo.png"));
