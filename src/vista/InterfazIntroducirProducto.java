@@ -16,7 +16,6 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import controlador.ControladorIntroducirProducto;
-import modelo.modeloDAO.GeneroDAO;
 import modelo.modeloVO.UsuarioVO;
 
 import javax.swing.JPopupMenu;
@@ -166,7 +165,8 @@ public class InterfazIntroducirProducto extends JFrame {
             @Override
             public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
                 if(comboBoxCategoria.getItemCount() == 0) {
-                    String[] categorias = {"Videojuego", "Película"};
+                    ControladorIntroducirProducto controlador = new ControladorIntroducirProducto();
+                    String[] categorias = controlador.obtenerCategorias();
                     for (String categoria : categorias) {
                         comboBoxCategoria.addItem(categoria);
                     }
