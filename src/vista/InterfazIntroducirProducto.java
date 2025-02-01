@@ -15,7 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import controlador.ControladorNuevoProducto;
+import controlador.ControladorIntroducirProducto;
+import modelo.modeloDAO.GeneroDAO;
 import modelo.modeloVO.UsuarioVO;
 
 import javax.swing.JPopupMenu;
@@ -210,7 +211,8 @@ public class InterfazIntroducirProducto extends JFrame {
             @Override
             public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
                 if(comboBoxGenero.getItemCount() == 0) {
-                    String[] generos = {"Drama", "Terror", "Comedia", "Accion", "Ciencia Ficcion", "Biografico"};
+                	ControladorIntroducirProducto controlador = new ControladorIntroducirProducto();
+                    String[] generos = controlador.obtenerGeneros();
                     for (String genero : generos) {
                         comboBoxGenero.addItem(genero);
                     }
@@ -317,7 +319,7 @@ public class InterfazIntroducirProducto extends JFrame {
                 }
                 else {
                     lblErrorVacio.setVisible(false);
-                    ControladorNuevoProducto controlador = new ControladorNuevoProducto();
+                    ControladorIntroducirProducto controlador = new ControladorIntroducirProducto();
                     boolean creado = controlador.existeProducto(nombre);
                     if(!creado) {
                         controlador.crearProducto(nombre, categoria, genero, pegi);

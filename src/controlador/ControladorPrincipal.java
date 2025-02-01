@@ -23,9 +23,9 @@ public class ControladorPrincipal {
         AlquilerDAO alquilerDAO = new AlquilerDAO();
 
         // OBJETOS VISTA
-        //InterfazPrincipal interfazPrincipal = new InterfazPrincipal();
+        InterfazPrincipal interfazPrincipal = new InterfazPrincipal();
     
-        // PRUEBAS DE BASE DE DATOS
-        //PruebasBD.agregarDatosIniciales(gestorDAO, clienteDAO, categoriaDAO, generoDAO, productoDAO, alquilerDAO, unidadProductoDAO, multaDAO, devolucionDAO);
+        //Agrego un gestor, géneros, categorías y productos
+        //PruebasBD.agregarDatosIniciales(gestorDAO, clienteDAO, categoriaDAO, generoDAO, productoDAO);
     }
 }
