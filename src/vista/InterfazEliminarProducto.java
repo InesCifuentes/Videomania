@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import controlador.ControladorEliminarProducto;
@@ -43,16 +45,16 @@ public class InterfazEliminarProducto extends JFrame {
       	int width = (int) pantalla.getWidth();
       	int height = (int) pantalla.getHeight();
 
-      	int partH = height / 3;
+      	int partH = height / 6;
 		int partW = width / 3;
        
       	setSize(pantalla);
 
       	GridBagLayout gridBagLayout = new GridBagLayout();
       	gridBagLayout.columnWidths = new int[]{partW/2, partW, partW, partW/2};
-      	gridBagLayout.rowHeights = new int[]{partH-partH/12, partH/2, partH/6, partH/2, partH-partH/12};
+      	gridBagLayout.rowHeights = new int[]{partH, 4*partH, partH};
       	gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-      	gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0};
+      	gridBagLayout.rowWeights = new double[]{1.0, 0.0, 1.0};
       	getContentPane().setLayout(gridBagLayout);
 
 		productosEliminarVO = new ArrayList<ProductoVO>();
@@ -125,13 +127,37 @@ public class InterfazEliminarProducto extends JFrame {
 			}
 		});
 
+		// Crear un panel para los productos
+        JPanel panelProductos = new JPanel();
+        panelProductos.setLayout(new GridBagLayout());
+        GridBagConstraints gbc_panelProductos = new GridBagConstraints();
+        gbc_panelProductos.gridx = 0;
+        gbc_panelProductos.gridy = 1;
+        gbc_panelProductos.gridwidth = 4;
+        gbc_panelProductos.fill = GridBagConstraints.BOTH;
+        gbc_panelProductos.weightx = 1.0;
+        gbc_panelProductos.weighty = 1.0;
+
+        // Crear un JScrollPane y agregar el panel de productos
+		JScrollPane scrollPane = new JScrollPane(panelProductos);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 1;
+		gbc_scrollPane.gridwidth = 4;
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		//gbc_scrollPane.weightx = 1.0;
+		//gbc_scrollPane.weighty = 1.0;
+		getContentPane().add(scrollPane, gbc_scrollPane);
+		scrollPane.setVisible(true);
+
 		ControladorTodosLosProductos controladorTodosLosProductos = new ControladorTodosLosProductos();
 		ArrayList<ProductoVO> productosVO = controladorTodosLosProductos.obtenerProductos();
 		int gridY = 1;
 		for(ProductoVO productoVO : productosVO) {
 			JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
 			lblProducto.setOpaque(true);
-			lblProducto.setBackground(new Color(186, 85, 211));
+			lblProducto.setBackground(new Color(147, 112, 219));
 			lblProducto.setForeground(Color.BLACK);
 			lblProducto.setFont(new Font("Dialog", Font.BOLD, 17));
 			lblProducto.setPreferredSize(new Dimension(350, 50));
@@ -144,7 +170,7 @@ public class InterfazEliminarProducto extends JFrame {
 			gbc_lblProducto.insets = new Insets(0, 0, 5, 5);
 			gbc_lblProducto.gridx = 1;
 			gbc_lblProducto.gridy = gridY;
-			getContentPane().add(lblProducto, gbc_lblProducto);
+			panelProductos.add(lblProducto, gbc_lblProducto);
 
 			JButton btnSeleccionar = new JButton("Seleccionar");
 			btnSeleccionar.setBackground(new Color(0, 191, 255));
@@ -158,10 +184,13 @@ public class InterfazEliminarProducto extends JFrame {
 			gbc_btnSeleccionar.insets = new Insets(0, 0, 5, 5);
 			gbc_btnSeleccionar.gridx = 2;
 			gbc_btnSeleccionar.gridy = gridY;
-			getContentPane().add(btnSeleccionar, gbc_btnSeleccionar);
+			panelProductos.add(btnSeleccionar, gbc_btnSeleccionar);
 
 			btnSeleccionar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					btnSeleccionar.setText("Seleccionado");
+					btnSeleccionar.setBackground(new Color(0, 0, 205));
+					btnSeleccionar.setForeground(Color.WHITE);
 					productosEliminarVO.add(productoVO);
 
 				}
@@ -180,7 +209,7 @@ public class InterfazEliminarProducto extends JFrame {
 		GridBagConstraints gbc_btnEliminar = new GridBagConstraints();
 		gbc_btnEliminar.anchor = GridBagConstraints.SOUTHEAST;
 		gbc_btnEliminar.gridx = 3;
-		gbc_btnEliminar.gridy = 4;
+		gbc_btnEliminar.gridy = 2;
 		getContentPane().add(btnEliminar, gbc_btnEliminar);
 
 		btnEliminar.addActionListener(new ActionListener() {
