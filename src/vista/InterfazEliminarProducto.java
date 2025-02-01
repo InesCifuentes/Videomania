@@ -6,11 +6,17 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingConstants;
 
+import controlador.ControladorEliminarProducto;
+import controlador.ControladorTodosLosProductos;
+import modelo.modeloVO.ProductoVO;
 import modelo.modeloVO.UsuarioVO;
 
 import javax.swing.ImageIcon;
@@ -22,6 +28,7 @@ import java.awt.Color;
 public class InterfazEliminarProducto extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private ArrayList<ProductoVO> productosEliminarVO;;
 	
 	/**
 	 * Create the frame.
@@ -36,16 +43,19 @@ public class InterfazEliminarProducto extends JFrame {
       	int width = (int) pantalla.getWidth();
       	int height = (int) pantalla.getHeight();
 
-      	int part = height / 3;
+      	int partH = height / 3;
+		int partW = width / 3;
        
       	setSize(pantalla);
 
       	GridBagLayout gridBagLayout = new GridBagLayout();
-      	gridBagLayout.columnWidths = new int[]{width/4, width/3, width/4};
-      	gridBagLayout.rowHeights = new int[]{part-part/12, part/2, part/6, part/2, part-part/12};
+      	gridBagLayout.columnWidths = new int[]{partW/2, partW, partW, partW/2};
+      	gridBagLayout.rowHeights = new int[]{partH-partH/12, partH/2, partH/6, partH/2, partH-partH/12};
       	gridBagLayout.columnWeights = new double[]{0.0, Double.MIN_VALUE};
       	gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0};
       	getContentPane().setLayout(gridBagLayout);
+
+		productosEliminarVO = new ArrayList<ProductoVO>();
 
       	JButton btnVolver = new JButton("< Volver");
       	btnVolver.addActionListener(new ActionListener() {
@@ -79,7 +89,7 @@ public class InterfazEliminarProducto extends JFrame {
 		GridBagConstraints gbc_btnUsuario = new GridBagConstraints();
 		gbc_btnUsuario.anchor = GridBagConstraints.NORTHEAST;
 		gbc_btnUsuario.insets = new Insets(0, 0, 5, 0);
-		gbc_btnUsuario.gridx = 2;
+		gbc_btnUsuario.gridx = 3;
 		gbc_btnUsuario.gridy = 0;
 		getContentPane().add(btnUsuario, gbc_btnUsuario);
 
@@ -107,26 +117,81 @@ public class InterfazEliminarProducto extends JFrame {
 		menuUsuario.add(btnCerrarSesion);
 		menuUsuario.setPreferredSize(new Dimension(150, 100));
 		menuUsuario.setMinimumSize(new Dimension(150, 100));
-		menuUsuario.setMaximumSize(new Dimension(1500, 100));
-
+		menuUsuario.setMaximumSize(new Dimension(150, 100));
+		
 		btnUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				menuUsuario.show(btnUsuario, btnUsuario.getWidth(), btnUsuario.getHeight());
 			}
 		});
 
+		ControladorTodosLosProductos controladorTodosLosProductos = new ControladorTodosLosProductos();
+		ArrayList<ProductoVO> productosVO = controladorTodosLosProductos.obtenerProductos();
+		int gridY = 1;
+		for(ProductoVO productoVO : productosVO) {
+			JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
+			lblProducto.setOpaque(true);
+			lblProducto.setBackground(new Color(186, 85, 211));
+			lblProducto.setForeground(Color.BLACK);
+			lblProducto.setFont(new Font("Dialog", Font.BOLD, 17));
+			lblProducto.setPreferredSize(new Dimension(350, 50));
+			lblProducto.setMinimumSize(new Dimension(350, 50));
+			lblProducto.setMaximumSize(new Dimension(350, 50));
+			lblProducto.setHorizontalAlignment(SwingConstants.CENTER);
+			lblProducto.setVerticalAlignment(SwingConstants.CENTER);
+			GridBagConstraints gbc_lblProducto = new GridBagConstraints();
+			gbc_lblProducto.anchor = GridBagConstraints.CENTER;
+			gbc_lblProducto.insets = new Insets(0, 0, 5, 5);
+			gbc_lblProducto.gridx = 1;
+			gbc_lblProducto.gridy = gridY;
+			getContentPane().add(lblProducto, gbc_lblProducto);
+
+			JButton btnSeleccionar = new JButton("Seleccionar");
+			btnSeleccionar.setBackground(new Color(0, 191, 255));
+			btnSeleccionar.setForeground(Color.BLACK);
+			btnSeleccionar.setFont(new Font("Dialog", Font.BOLD, 17));
+			btnSeleccionar.setPreferredSize(new Dimension(150, 50));
+			btnSeleccionar.setMinimumSize(new Dimension(150, 50));
+			btnSeleccionar.setMaximumSize(new Dimension(150, 50));
+			GridBagConstraints gbc_btnSeleccionar = new GridBagConstraints();
+			gbc_btnSeleccionar.anchor = GridBagConstraints.EAST;
+			gbc_btnSeleccionar.insets = new Insets(0, 0, 5, 5);
+			gbc_btnSeleccionar.gridx = 2;
+			gbc_btnSeleccionar.gridy = gridY;
+			getContentPane().add(btnSeleccionar, gbc_btnSeleccionar);
+
+			btnSeleccionar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					productosEliminarVO.add(productoVO);
+
+				}
+			});
+
+			gridY++;
+		}
+		
 		JButton btnEliminar = new JButton("Eliminar");
 		btnEliminar.setForeground(Color.BLACK);
 		btnEliminar.setBackground(new Color(0, 128, 128));
 		btnEliminar.setFont(new Font("Dialog", Font.BOLD, 17));
-		btnEliminar.setPreferredSize(new Dimension(250, 100));
-		btnEliminar.setMinimumSize(new Dimension(250, 100));
-		btnEliminar.setMaximumSize(new Dimension(250, 100));
+		btnEliminar.setPreferredSize(new Dimension(150, 50));
+		btnEliminar.setMinimumSize(new Dimension(150, 50));
+		btnEliminar.setMaximumSize(new Dimension(150, 50));
 		GridBagConstraints gbc_btnEliminar = new GridBagConstraints();
 		gbc_btnEliminar.anchor = GridBagConstraints.SOUTHEAST;
-		gbc_btnEliminar.gridx = 2;
+		gbc_btnEliminar.gridx = 3;
 		gbc_btnEliminar.gridy = 4;
 		getContentPane().add(btnEliminar, gbc_btnEliminar);
+
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ControladorEliminarProducto controladorEliminarProducto = new ControladorEliminarProducto();
+				controladorEliminarProducto.eliminarProducto(productosEliminarVO);
+				InterfazModificarCatalogo interfazModificarCatalogo = new InterfazModificarCatalogo(usuarioVO);
+				interfazModificarCatalogo.setVisible(true);
+				dispose(); // Cierra la ventana actual
+			}
+		});
      
      // Establecer el icono de la ventana
 		ImageIcon icon = new ImageIcon(getClass().getResource("../imagenes/logo.png"));
