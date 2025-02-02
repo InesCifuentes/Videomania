@@ -1,6 +1,6 @@
 package controlador;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -74,19 +74,27 @@ public class ControladorBuscarUsuario {
 
     public ArrayList<ProductoVO> obtenerProductos(String nombre) {
         ArrayList<ProductoVO> productos = new ArrayList<>();
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
     	for(ClienteVO cliente : usuarioDAO.obtenerClientes()) {
         	if(nombre.equals(cliente.getNombre())) {
-                for(AlquilerVO alquiler : alquilerDAO.obtenerAlquileres()) {
-                	if(nombre.equals(alquiler.getNombreCliente())) {
-                        for(Unidad_ProductoVO unidadProducto : unidadProductoDAO.obtenerUnidadesProducto()) {
-                        	if(alquiler.getIdAlquiler() == unidadProducto.getIdAlquiler()) {
-                                for(ProductoVO productoVO : productoDAO.obtenerProductos()){
-                                    productos.add(productoVO);
+                for(AlquilerVO alquilerVO : alquilerDAO.obtenerAlquileres()) {
+                	if(nombre.equals(alquilerVO.getNombreCliente())) {
+                        LocalDate fechaAlquiler = LocalDate.parse(alquilerVO.getFechaAlquiler(), formatter);
+                        LocalDate fechaActual = LocalDate.now();
+                        if(fechaAlquiler.isEqual(fechaActual)) {
+                            // La fecha de alquiler es el mismo día que la fecha actual
+                            for(Unidad_ProductoVO unidadProducto : unidadProductoDAO.obtenerUnidadesProducto()) {
+                                if(alquilerVO.getIdAlquiler() == unidadProducto.getIdAlquiler()) {
+                                    for(ProductoVO productoVO : productoDAO.obtenerProductos()){
+                                        System.out.println(productoVO.getNombreProducto());
+                                        productos.add(productoVO);
+                                    }
+                                    
                                 }
-                        		
-                        	}
+                            }
                         }
+                        
                 	}
                 }
         	}
@@ -143,14 +151,14 @@ public class ControladorBuscarUsuario {
 
     public void eliminarAlquiler(String usuario) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    
+
         for(UsuarioVO usuarioVO : usuarioDAO.obtenerClientes()) {
             if(usuario.equals(usuarioVO.getNombre())) {
                 for(AlquilerVO alquilerVO : alquilerDAO.obtenerAlquileres()) {
                     if(usuario.equals(alquilerVO.getNombreCliente())) {
-                        LocalDateTime fechaAlquiler = LocalDateTime.parse(alquilerVO.getFechaAlquiler(), formatter);
-                        LocalDateTime fechaActual = LocalDateTime.now();
-                        if(fechaAlquiler.toLocalDate().isEqual(fechaActual.toLocalDate())) {
+                        LocalDate fechaAlquiler = LocalDate.parse(alquilerVO.getFechaAlquiler(), formatter);
+                        LocalDate fechaActual = LocalDate.now();
+                        if(fechaAlquiler.isEqual(fechaActual)) {
                             // La fecha de alquiler es el mismo día que la fecha actual
                             int idAlquiler = alquilerVO.getIdAlquiler();
                             alquilerDAO.eliminarAlquiler(idAlquiler);

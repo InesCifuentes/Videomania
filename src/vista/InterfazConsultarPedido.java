@@ -379,7 +379,28 @@ public class InterfazConsultarPedido extends JFrame {
 
 							gridY++;
 							total += precio;
+
+							boolean multa = controladorBuscarUsuario.buscarMulta(alquiler);
+							if(multa) {
+								JLabel lblMulta = new JLabel("5.00 €");
+								lblMulta.setForeground(Color.BLACK);
+								lblMulta.setFont(new Font("Dialog", Font.BOLD, 17));
+								lblMulta.setPreferredSize(new Dimension(350, 50));
+								lblMulta.setMinimumSize(new Dimension(350, 50));
+								lblMulta.setMaximumSize(new Dimension(350, 50));
+								lblMulta.setHorizontalAlignment(SwingConstants.CENTER);
+								lblMulta.setVerticalAlignment(SwingConstants.CENTER);
+								GridBagConstraints gbc_lblMulta = new GridBagConstraints();
+								gbc_lblMulta.anchor = GridBagConstraints.CENTER;
+								gbc_lblMulta.insets = new Insets(0, 0, 5, 5);
+								gbc_lblMulta.gridx = 1;
+								gbc_lblMulta.gridy = gridY;
+								panelProductos.add(lblMulta, gbc_lblMulta);
+
+								gridY++;
+							}
 						}
+
 						JLabel lblSuma = new JLabel("+ _________________________");
 						lblSuma.setFont(new Font("Dialog", Font.BOLD, 20));
 						lblSuma.setForeground(Color.BLACK);
