@@ -11,15 +11,20 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import controlador.ControladorBuscarUsuario;
+import modelo.modeloVO.AlquilerVO;
+import modelo.modeloVO.ProductoVO;
 import modelo.modeloVO.UsuarioVO;
 
 public class InterfazConsultarPedido extends JFrame {
@@ -41,14 +46,14 @@ public class InterfazConsultarPedido extends JFrame {
       	int width = (int) pantalla.getWidth();
       	int height = (int) pantalla.getHeight();
 
-      	int partH = height / 3;
+      	int partH = height / 6;
 		int partW = width / 3;
        
       	setSize(pantalla);
 
       	GridBagLayout gridBagLayout = new GridBagLayout();
       	gridBagLayout.columnWidths = new int[]{partW/2, partW, partW, partW/2};
-      	gridBagLayout.rowHeights = new int[]{partH/8, partH/4, partH/6, partH/2, partH-partH/12};
+      	gridBagLayout.rowHeights = new int[]{partH, partH/2, partH/4, 5*partH-3*partH/4};
       	gridBagLayout.columnWeights = new double[]{0.0, 1.0};
       	gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 1.0};
       	getContentPane().setLayout(gridBagLayout);
@@ -176,9 +181,9 @@ public class InterfazConsultarPedido extends JFrame {
 				if(existe) {
 					//MOSTRAR EL PEDIDO
 					lblErrorNoExiste.setVisible(false);
+					lblErrorNoAlquilar.setVisible(false);
 					boolean alquilado = controladorBuscarUsuario.buscarAlquiler(nombre);
 					if(alquilado) {
-						lblErrorNoAlquilar.setVisible(false);
 						txtBuscarNombre.setVisible(false);
 						btnBuscar.setVisible(false);
 						
@@ -193,7 +198,34 @@ public class InterfazConsultarPedido extends JFrame {
 						gbc_lblnombreCliente.gridy = 1;
 						getContentPane().add(lblnombreCliente, gbc_lblnombreCliente);
 
-						JLabel productosCliente = new JLabel("\nProductos a Alquilar:\n");
+						//MOSTRAR EL PEDIDO
+						//LOS PRODUCTOS DEL CLIENTE QUE SE BUSCAN SON LOS DEL ARRAYlIST
+
+						// Crear un panel para los productos
+						JPanel panelProductos = new JPanel();
+						panelProductos.setLayout(new GridBagLayout());
+						GridBagConstraints gbc_panelProductos = new GridBagConstraints();
+						gbc_panelProductos.gridx = 0;
+						gbc_panelProductos.gridy = 3;
+						gbc_panelProductos.gridwidth = 4;
+						gbc_panelProductos.fill = GridBagConstraints.BOTH;
+						gbc_panelProductos.weightx = 1.0;
+						gbc_panelProductos.weighty = 1.0;
+
+						// Crear un JScrollPane y agregar el panel de productos
+						JScrollPane scrollPane = new JScrollPane(panelProductos);
+						scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+						GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+						gbc_scrollPane.gridx = 0;
+						gbc_scrollPane.gridy = 3;
+						gbc_scrollPane.gridwidth = 4;
+						gbc_scrollPane.fill = GridBagConstraints.BOTH;
+						getContentPane().add(scrollPane, gbc_scrollPane);
+						scrollPane.setVisible(true);
+
+						int gridY = 3;
+
+						JLabel productosCliente = new JLabel("Productos a Alquilar:");
 						productosCliente.setFont(new Font("Dialog", Font.BOLD, 20));
 						productosCliente.setForeground(Color.BLACK);
 						productosCliente.setVisible(true);
@@ -201,13 +233,182 @@ public class InterfazConsultarPedido extends JFrame {
 						gbc_productosCliente.anchor = GridBagConstraints.SOUTH;
 						gbc_productosCliente.insets = new Insets(0, 0, 5, 5);
 						gbc_productosCliente.gridx = 1;
-						gbc_productosCliente.gridy = 2;
-						getContentPane().add(productosCliente, gbc_productosCliente);
+						gbc_productosCliente.gridy = gridY;
+						panelProductos.add(productosCliente, gbc_productosCliente);
 
-						ArrayList<String> productos = controladorBuscarUsuario.obtenerProductos(nombre);
+						gridY++;
 
-						//MOSTRAR EL PEDIDO
-						//LOS PRODUCTOS DEL CLIENTE QUE SE BUSCAN SON LOS DEL ARRAYlIST
+						ArrayList<ProductoVO> productos = controladorBuscarUsuario.obtenerProductos(nombre);
+						for(ProductoVO productoVO : productos) {
+							JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
+							lblProducto.setOpaque(true);
+							lblProducto.setBackground(new Color(147, 112, 219));
+							lblProducto.setForeground(Color.BLACK);
+							lblProducto.setFont(new Font("Dialog", Font.BOLD, 17));
+							lblProducto.setPreferredSize(new Dimension(350, 50));
+							lblProducto.setMinimumSize(new Dimension(350, 50));
+							lblProducto.setMaximumSize(new Dimension(350, 50));
+							lblProducto.setHorizontalAlignment(SwingConstants.CENTER);
+							lblProducto.setVerticalAlignment(SwingConstants.CENTER);
+							GridBagConstraints gbc_lblProducto = new GridBagConstraints();
+							gbc_lblProducto.anchor = GridBagConstraints.CENTER;
+							gbc_lblProducto.insets = new Insets(0, 0, 5, 5);
+							gbc_lblProducto.gridx = 1;
+							gbc_lblProducto.gridy = gridY;
+							panelProductos.add(lblProducto, gbc_lblProducto);
+
+							JLabel lblCategoria = new JLabel(productoVO.getCategoria());
+							lblCategoria.setForeground(Color.BLACK);
+							lblCategoria.setFont(new Font("Dialog", Font.BOLD, 17));
+							lblCategoria.setPreferredSize(new Dimension(350, 50));
+							lblCategoria.setMinimumSize(new Dimension(350, 50));
+							lblCategoria.setMaximumSize(new Dimension(350, 50));
+							lblCategoria.setHorizontalAlignment(SwingConstants.CENTER);
+							lblCategoria.setVerticalAlignment(SwingConstants.CENTER);
+							GridBagConstraints gbc_lblCategoria = new GridBagConstraints();
+							gbc_lblCategoria.anchor = GridBagConstraints.CENTER;
+							gbc_lblCategoria.insets = new Insets(0, 0, 5, 5);
+							gbc_lblCategoria.gridx = 2;
+							gbc_lblCategoria.gridy = gridY;
+							panelProductos.add(lblCategoria, gbc_lblCategoria);
+
+							gridY++;
+						}
+
+						gridY++;
+						JLabel multasCliente = new JLabel("Multas");
+						multasCliente.setFont(new Font("Dialog", Font.BOLD, 20));
+						multasCliente.setForeground(Color.BLACK);
+						multasCliente.setVisible(true);
+						GridBagConstraints gbc_multasCliente = new GridBagConstraints();
+						gbc_multasCliente.anchor = GridBagConstraints.SOUTH;
+						gbc_multasCliente.insets = new Insets(0, 0, 5, 5);
+						gbc_multasCliente.gridx = 1;
+						gbc_multasCliente.gridy = gridY;
+						panelProductos.add(multasCliente, gbc_multasCliente);
+
+						gridY++;
+
+						AlquilerVO alquiler = controladorBuscarUsuario.obtenerAlquiler(nombre);
+
+						for(ProductoVO productoVO : productos) {
+							JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
+							lblProducto.setOpaque(true);
+							lblProducto.setBackground(new Color(147, 112, 219));
+							lblProducto.setForeground(Color.BLACK);
+							lblProducto.setFont(new Font("Dialog", Font.BOLD, 17));
+							lblProducto.setPreferredSize(new Dimension(350, 50));
+							lblProducto.setMinimumSize(new Dimension(350, 50));
+							lblProducto.setMaximumSize(new Dimension(350, 50));
+							lblProducto.setHorizontalAlignment(SwingConstants.CENTER);
+							lblProducto.setVerticalAlignment(SwingConstants.CENTER);
+							GridBagConstraints gbc_lblProducto = new GridBagConstraints();
+							gbc_lblProducto.anchor = GridBagConstraints.CENTER;
+							gbc_lblProducto.insets = new Insets(0, 0, 5, 5);
+							gbc_lblProducto.gridx = 1;
+							gbc_lblProducto.gridy = gridY;
+							panelProductos.add(lblProducto, gbc_lblProducto);
+
+							boolean multa = controladorBuscarUsuario.buscarMulta(alquiler);
+
+							if(multa) {
+								JLabel lblMulta = new JLabel("5.00 €");
+								lblMulta.setForeground(Color.BLACK);
+								lblMulta.setFont(new Font("Dialog", Font.BOLD, 17));
+								lblMulta.setPreferredSize(new Dimension(350, 50));
+								lblMulta.setMinimumSize(new Dimension(350, 50));
+								lblMulta.setMaximumSize(new Dimension(350, 50));
+								lblMulta.setHorizontalAlignment(SwingConstants.CENTER);
+								lblMulta.setVerticalAlignment(SwingConstants.CENTER);
+								GridBagConstraints gbc_lblMulta = new GridBagConstraints();
+								gbc_lblMulta.anchor = GridBagConstraints.CENTER;
+								gbc_lblMulta.insets = new Insets(0, 0, 5, 5);
+								gbc_lblMulta.gridx = 2;
+								gbc_lblMulta.gridy = gridY;
+								panelProductos.add(lblMulta, gbc_lblMulta);
+
+								gridY++;
+							}
+							else {
+								JLabel lblNoMulta = new JLabel("No hay multa");
+								lblNoMulta.setForeground(Color.BLACK);
+								lblNoMulta.setFont(new Font("Dialog", Font.BOLD, 17));
+								lblNoMulta.setPreferredSize(new Dimension(350, 50));
+								lblNoMulta.setMinimumSize(new Dimension(350, 50));
+								lblNoMulta.setMaximumSize(new Dimension(350, 50));
+								lblNoMulta.setHorizontalAlignment(SwingConstants.CENTER);
+								lblNoMulta.setVerticalAlignment(SwingConstants.CENTER);
+								GridBagConstraints gbc_lblNoMulta = new GridBagConstraints();
+								gbc_lblNoMulta.anchor = GridBagConstraints.CENTER;
+								gbc_lblNoMulta.insets = new Insets(0, 0, 5, 5);
+								gbc_lblNoMulta.gridx = 2;
+								gbc_lblNoMulta.gridy = gridY;
+								panelProductos.add(lblNoMulta, gbc_lblNoMulta);
+
+								gridY++;
+							}
+						}
+
+						gridY++;
+						JLabel lblTotal = new JLabel("TOTAL:");
+						lblTotal.setFont(new Font("Dialog", Font.BOLD, 20));
+						lblTotal.setForeground(Color.BLACK);
+						lblTotal.setVisible(true);
+						GridBagConstraints gbc_lblTotal = new GridBagConstraints();
+						gbc_lblTotal.anchor = GridBagConstraints.SOUTH;
+						gbc_lblTotal.insets = new Insets(0, 0, 5, 5);
+						gbc_lblTotal.gridx = 1;
+						gbc_lblTotal.gridy = gridY;
+						panelProductos.add(lblTotal, gbc_lblTotal);
+
+						double total = 0;
+						gridY++;
+
+						for(ProductoVO productoVO : productos){
+							double precio = controladorBuscarUsuario.obtenerPrecio(productoVO);
+							JLabel lblPrecio = new JLabel(String.format("%.2f", precio));
+							lblPrecio.setFont(new Font("Dialog", Font.BOLD, 20));
+							lblPrecio.setForeground(Color.BLACK);
+							lblPrecio.setVisible(true);
+							GridBagConstraints gbc_lblPrecio = new GridBagConstraints();
+							gbc_lblPrecio.anchor = GridBagConstraints.SOUTH;
+							gbc_lblPrecio.insets = new Insets(0, 0, 5, 5);
+							gbc_lblPrecio.gridx = 1;
+							gbc_lblPrecio.gridy = gridY;
+							panelProductos.add(lblPrecio, gbc_lblPrecio);
+
+							gridY++;
+							total += precio;
+						}
+						JLabel lblSuma = new JLabel("+ _________________________");
+						lblSuma.setFont(new Font("Dialog", Font.BOLD, 20));
+						lblSuma.setForeground(Color.BLACK);
+						lblSuma.setVisible(true);
+						GridBagConstraints gbc_lblSuma = new GridBagConstraints();
+						gbc_lblSuma.anchor = GridBagConstraints.SOUTH;
+						gbc_lblSuma.insets = new Insets(0, 0, 5, 5);
+						gbc_lblSuma.gridx = 1;
+						gbc_lblSuma.gridy = gridY;
+						panelProductos.add(lblSuma, gbc_lblSuma);
+
+						gridY++;
+
+						JLabel lblTotalSuma = new JLabel(String.format("%.2f", total));
+						lblTotalSuma.setFont(new Font("Dialog", Font.BOLD, 20));
+						lblTotalSuma.setForeground(Color.BLACK);
+						lblTotalSuma.setVisible(true);
+						GridBagConstraints gbc_lblTotalSuma = new GridBagConstraints();
+						gbc_lblTotalSuma.anchor = GridBagConstraints.SOUTH;
+						gbc_lblTotalSuma.insets = new Insets(0, 0, 5, 5);
+						gbc_lblTotalSuma.gridx = 1;
+						gbc_lblTotalSuma.gridy = gridY;
+						panelProductos.add(lblTotalSuma, gbc_lblTotalSuma);
+
+						gridY++;
+
+
+
+
 					}
 					else {
 						//Mostrar mensaje de error
