@@ -45,7 +45,7 @@ CREATE TABLE Multa (
 CREATE TABLE Unidad_Producto (
     ID_unidad_producto INT PRIMARY KEY IDENTITY(1,1),
     Nombre_producto VARCHAR(100),
-    ID_alquiler INT,
+    ID_alquiler INT NULL,
     Estado VARCHAR(20) NOT NULL,
     FOREIGN KEY (Nombre_producto) REFERENCES Producto(Nombre_producto),
     FOREIGN KEY (ID_alquiler) REFERENCES Alquiler(ID_alquiler)
