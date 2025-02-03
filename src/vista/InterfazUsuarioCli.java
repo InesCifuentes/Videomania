@@ -418,6 +418,8 @@ public class InterfazUsuarioCli extends JFrame {
 
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ControladorAlquilaProducto controlador = new ControladorAlquilaProducto();
+				controlador.cancelarProcesamiento();
 				InterfazPantallaCli interfazPantallaCli = new InterfazPantallaCli(usuario);
 				interfazPantallaCli.setVisible(true);
 				dispose();
