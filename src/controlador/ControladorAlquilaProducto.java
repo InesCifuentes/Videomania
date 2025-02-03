@@ -2,11 +2,9 @@ package controlador;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Random;
 
 import modelo.modeloDAO.AlquilerDAO;
 import modelo.modeloDAO.ClienteDAO;
-import modelo.modeloDAO.ProductoDAO;
 import modelo.modeloDAO.Unidad_ProductoDAO;
 import modelo.modeloVO.AlquilerVO;
 import modelo.modeloVO.ClienteVO;
@@ -15,13 +13,11 @@ import modelo.modeloVO.Unidad_ProductoVO;
 
 public class ControladorAlquilaProducto {
     private ClienteDAO  clienteDAO;
-    private ProductoDAO productoDAO;
     private AlquilerDAO alquilerDAO;
     private Unidad_ProductoDAO unidadProductoDAO;
 
     public ControladorAlquilaProducto() {
         clienteDAO = new ClienteDAO();
-        productoDAO = new ProductoDAO();
         alquilerDAO = new AlquilerDAO();
         unidadProductoDAO = new Unidad_ProductoDAO();
     }
@@ -64,11 +60,42 @@ public class ControladorAlquilaProducto {
         }
     }
 
-    public void cancelarProcesamiento() {
-        ArrayList<Unidad_ProductoVO> unidadesProcesando = unidadProductoDAO.obtenerUnidadesProcesando();
-        for (Unidad_ProductoVO unidadProducto : unidadesProcesando) {
-            unidadProductoDAO.modificarEstado(unidadProducto.getId(), "Disponible");
+    public void alquilarProducto(ClienteVO nombreCliente, ProductoVO nombreProducto) {
+        for(ClienteVO cliente : clienteDAO.obtenerClientes()) {
+            if(cliente.getNombre().equals(nombreCliente.getNombre())) {
+                this.modificaEstadoProducto(nombreCliente, nombreProducto, "Procesando");
+            }
         }
+    }    
+
+    public int productosAlquilados(String usuario) {
+        int alquilados = 0;
+
+        for(ClienteVO clienteVO : clienteDAO.obtenerClientes()) {
+            if(usuario.equals(clienteVO.getNombre())) {
+                for(AlquilerVO alquilerVO : alquilerDAO.obtenerAlquileres()) {
+                    if(usuario.equals(alquilerVO.getNombreCliente())) {
+                        alquilados++;
+                    }
+                }
+            }
+        }
+
+        return alquilados;
+
+    }
+
+    public void cancelarProcesamiento(String usuario) {
+        ArrayList<Unidad_ProductoVO> unidadesProcesando = unidadProductoDAO.obtenerUnidadesProcesando();
+        for(ClienteVO clienteVO : clienteDAO.obtenerClientes()) {
+            if (usuario.equals(clienteVO.getNombre())) {
+                for (Unidad_ProductoVO unidadProducto : unidadesProcesando) {
+
+                unidadProductoDAO.modificarEstado(unidadProducto.getId(), "Disponible");
+        }
+            }
+        }
+        
     }
 
     private Unidad_ProductoVO obtenerPrimeraUnidadDisponible(String nombreProducto) {

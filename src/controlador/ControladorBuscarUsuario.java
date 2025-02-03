@@ -86,11 +86,14 @@ public class ControladorBuscarUsuario {
                             // La fecha de alquiler es el mismo día que la fecha actual
                             for(Unidad_ProductoVO unidadProducto : unidadProductoDAO.obtenerUnidadesProducto()) {
                                 if(alquilerVO.getIdAlquiler() == unidadProducto.getIdAlquiler()) {
-                                    for(ProductoVO productoVO : productoDAO.obtenerProductos()){
-                                        System.out.println(productoVO.getNombreProducto());
-                                        productos.add(productoVO);
+                                    if(unidadProducto.getEstado().equals("Procesando")) {
+                                        for(ProductoVO productoVO : productoDAO.obtenerProductos()){
+                                            if(productoVO.getNombreProducto() == unidadProducto.getNombreProducto()) {
+                                                productos.add(productoVO);
+                                            }
+                                       
+                                        }
                                     }
-                                    
                                 }
                             }
                         }
@@ -132,9 +135,14 @@ public class ControladorBuscarUsuario {
                             if(alquiler.getIdAlquiler() == devolucionVO.getIdAlquiler()) {
                                 for(Unidad_ProductoVO unidadProducto : unidadProductoDAO.obtenerUnidadesProducto()) {
                                     if(alquiler.getIdAlquiler() == unidadProducto.getIdAlquiler()) {
-                                        for(ProductoVO productoVO : productoDAO.obtenerProductos()){
-                                            devolver.add(productoVO);
+                                        if(unidadProducto.getEstado().equals("Alquilado")) {
+                                            for(ProductoVO productoVO : productoDAO.obtenerProductos()){
+                                                if(productoVO.getNombreProducto() == unidadProducto.getNombreProducto()){
+                                                    devolver.add(productoVO);
+                                                }
+                                            }
                                         }
+                                        
                                         
                                     }
                                 }
