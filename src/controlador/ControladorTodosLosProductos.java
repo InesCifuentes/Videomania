@@ -15,4 +15,8 @@ public class ControladorTodosLosProductos {
     public ArrayList<ProductoVO> obtenerProductos() {
         return productoDAO.obtenerProductos();
     }
+
+    public ArrayList<ProductoVO> obtenerProductosDisponibles() {
+        return productoDAO.obtenerProductosDisponibles();
+    }
 }

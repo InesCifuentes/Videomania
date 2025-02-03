@@ -50,9 +50,30 @@ public class ControladorBuscarProducto {
         
     }
 
+    public ArrayList<ProductoVO> buscarProductoDisponible(String nombre) {
+        ArrayList<ProductoVO> productos = new ArrayList<>();
+    	for(ProductoVO producto : productoDAO.obtenerProductosDisponibles()) {
+        	if(nombre.equals(producto.getNombreProducto())) {
+        		productos.add(producto);
+            }
+        }
+        return productos;
+        
+    }
+
     public ArrayList<ProductoVO> buscarProductoCategoria(String categoria) {
         ArrayList<ProductoVO> productos = new ArrayList<>();
         for(ProductoVO producto : productoDAO.obtenerProductos()) {
+            if(categoria.equals(producto.getCategoria())) {
+                productos.add(producto);
+            }
+        }
+        return productos;
+    }
+
+    public ArrayList<ProductoVO> buscarProductoDisponibleCategoria(String categoria) {
+        ArrayList<ProductoVO> productos = new ArrayList<>();
+        for(ProductoVO producto : productoDAO.obtenerProductosDisponibles()) {
             if(categoria.equals(producto.getCategoria())) {
                 productos.add(producto);
             }
@@ -70,5 +91,14 @@ public class ControladorBuscarProducto {
         return productos;
     }
 
+    public ArrayList<ProductoVO> buscarProductoDisponibleGenero(String genero) {
+        ArrayList<ProductoVO> productos = new ArrayList<>();
+        for(ProductoVO producto : productoDAO.obtenerProductosDisponibles()) {
+            if(genero.equals(producto.getGenero())) {
+                productos.add(producto);
+            }
+        }
+        return productos;
+    }
    
 }
