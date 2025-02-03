@@ -55,4 +55,35 @@ public class AlquilerDAO {
             return false;
         }
     }
+
+    public int obtenerIdAlquiler(String nombreCliente, String fechaAlquiler) {
+        String sql = "SELECT ID_alquiler FROM Alquiler WHERE Nombre_cliente = ? AND Fecha_alquiler = ?";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, nombreCliente);
+            pstmt.setString(2, fechaAlquiler);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("ID_alquiler");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // Return -1 if not found
+    }
+
+    public int obtenerUltimoIdAlquiler() {
+        String sql = "SELECT MAX(ID_alquiler) AS ultimo_id FROM Alquiler";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("ultimo_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // Return -1 if not found
+    }
 }
