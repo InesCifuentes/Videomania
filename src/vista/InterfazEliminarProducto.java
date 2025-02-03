@@ -146,13 +146,11 @@ public class InterfazEliminarProducto extends JFrame {
 		gbc_scrollPane.gridy = 1;
 		gbc_scrollPane.gridwidth = 4;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		//gbc_scrollPane.weightx = 1.0;
-		//gbc_scrollPane.weighty = 1.0;
 		getContentPane().add(scrollPane, gbc_scrollPane);
 		scrollPane.setVisible(true);
 
 		ControladorTodosLosProductos controladorTodosLosProductos = new ControladorTodosLosProductos();
-		ArrayList<ProductoVO> productosVO = controladorTodosLosProductos.obtenerProductos();
+		ArrayList<ProductoVO> productosVO = controladorTodosLosProductos.obtenerTodosProductos();
 		int gridY = 1;
 		for(ProductoVO productoVO : productosVO) {
 			JLabel lblProducto = new JLabel(productoVO.getNombreProducto());

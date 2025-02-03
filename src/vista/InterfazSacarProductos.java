@@ -33,7 +33,7 @@ public class InterfazSacarProductos extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtBuscarProducto;
-	private JLabel lblErrorNoProductos;
+	private JLabel lblErrorNoProductos, lblErrorExcesoProductos;
 	
 	/**
 	 * Create the frame.
@@ -151,6 +151,17 @@ public class InterfazSacarProductos extends JFrame {
         gbc_lblErrorNoProductos.gridy = 2;
         getContentPane().add(lblErrorNoProductos, gbc_lblErrorNoProductos);
          
+		lblErrorExcesoProductos = new JLabel("Ya no se pueden alquilar mas productos. Máximo alcanzado");
+        lblErrorExcesoProductos.setFont(new Font("Dialog", Font.BOLD, 17));
+        lblErrorExcesoProductos.setForeground(Color.RED);
+        lblErrorExcesoProductos.setVisible(false);
+        GridBagConstraints gbc_lblErrorExcesoProductos = new GridBagConstraints();
+        gbc_lblErrorExcesoProductos.anchor = GridBagConstraints.SOUTH;
+        gbc_lblErrorExcesoProductos.insets = new Insets(0, 0, 5, 5);
+        gbc_lblErrorExcesoProductos.gridx = 2;
+        gbc_lblErrorExcesoProductos.gridy = 2;
+        getContentPane().add(lblErrorExcesoProductos, gbc_lblErrorExcesoProductos);
+        
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnBuscar.setBackground(new Color(0, 128, 128));
@@ -178,6 +189,14 @@ public class InterfazSacarProductos extends JFrame {
 
 					ControladorTodosLosProductos controladorTodosLosProductos = new ControladorTodosLosProductos();
 					ArrayList<ProductoVO> productosVO = controladorTodosLosProductos.obtenerProductosDisponibles();
+					
+					if(usuarioVO.getEdad() < 18) {
+						productosVO = controladorTodosLosProductos.obtenerProductosMenorEdad();
+					}
+					else {
+						productosVO = controladorTodosLosProductos.obtenerProductosDisponibles();
+					}
+
 					int gridY = 0;
 					for(ProductoVO productoVO : productosVO) {
 						JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
@@ -213,11 +232,21 @@ public class InterfazSacarProductos extends JFrame {
 
 						btnSeleccionar.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								btnSeleccionar.setText("Seleccionado");
-								btnSeleccionar.setBackground(new Color(0, 0, 205));
-								btnSeleccionar.setForeground(Color.WHITE);
 								ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
-								controladorAlquilaProducto.modificaEstadoProducto(usuarioVO, productoVO, "Procesando");
+								int productosAlquilados = controladorAlquilaProducto.productosAlquilados(usuarioVO.getNombre());
+								
+								if(productosAlquilados < 5) {
+									
+									controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+									InterfazPantallaCli interfazPantallaCli = new InterfazPantallaCli(usuarioVO);
+									interfazPantallaCli.setVisible(true);
+									dispose();
+								}
+								else {
+									panelProductos.setVisible(false);
+									lblErrorExcesoProductos.setVisible(true);
+								}
+							
 							}
 						});
 
