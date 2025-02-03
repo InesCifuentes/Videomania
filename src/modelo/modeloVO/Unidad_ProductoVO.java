@@ -3,10 +3,10 @@ package modelo.modeloVO;
 public class Unidad_ProductoVO {
     private int id;
     private String nombreProducto;
-    private int idAlquiler;
+    private Integer idAlquiler;
     private String estado;
 
-    public Unidad_ProductoVO(int id, String nombreProducto, int idAlquiler, String estado) {
+    public Unidad_ProductoVO(int id, String nombreProducto, Integer idAlquiler, String estado) {
         this.id = id;
         this.nombreProducto = nombreProducto;
         this.idAlquiler = idAlquiler;
@@ -29,11 +29,11 @@ public class Unidad_ProductoVO {
         this.nombreProducto = nombreProducto;
     }
 
-    public int getIdAlquiler() {
+    public Integer getIdAlquiler() {
         return idAlquiler;
     }
 
-    public void setIdAlquiler(int idAlquiler) {
+    public void setIdAlquiler(Integer idAlquiler) {
         this.idAlquiler = idAlquiler;
     }
 
