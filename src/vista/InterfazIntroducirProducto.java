@@ -320,17 +320,17 @@ public class InterfazIntroducirProducto extends JFrame {
                 else {
                     lblErrorVacio.setVisible(false);
                     ControladorIntroducirProducto controlador = new ControladorIntroducirProducto();
-                    boolean creado = controlador.existeProducto(nombre);
-                    if(!creado) {
+                    //boolean creado = controlador.existeProducto(nombre);
+                    //if(!creado) {
                         controlador.crearProducto(nombre, categoria, genero, pegi);
                         InterfazPantallaGes gestor = new InterfazPantallaGes(usuarioVO);
                         gestor.setVisible(true);
                         dispose(); // Cierra la ventana actual
-                    }
-                    else {
-                        lblErrorVacio.setText("El producto ya existe");
-                        lblErrorVacio.setVisible(true);
-                    }
+                    //}
+                    //else {
+                    //    lblErrorVacio.setText("El producto ya existe");
+                    //    lblErrorVacio.setVisible(true);
+                    //}
                     
                 }
             }

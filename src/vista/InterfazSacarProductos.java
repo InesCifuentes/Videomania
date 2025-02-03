@@ -167,7 +167,7 @@ public class InterfazSacarProductos extends JFrame {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ControladorBuscarProducto controladorBuscarProducto = new ControladorBuscarProducto();
-				ArrayList<ProductoVO> productos = controladorBuscarProducto.buscarProducto(txtBuscarProducto.getText());
+				ArrayList<ProductoVO> productos = controladorBuscarProducto.buscarProductoDisponible(txtBuscarProducto.getText());
 
 				if(productos.size() == 0) {
 					//Mostrar mensaje de que no se ha encontrado el producto
@@ -177,7 +177,7 @@ public class InterfazSacarProductos extends JFrame {
 					panelProductos.repaint(); // Repintar el panel
 
 					ControladorTodosLosProductos controladorTodosLosProductos = new ControladorTodosLosProductos();
-					ArrayList<ProductoVO> productosVO = controladorTodosLosProductos.obtenerProductos();
+					ArrayList<ProductoVO> productosVO = controladorTodosLosProductos.obtenerProductosDisponibles();
 					int gridY = 0;
 					for(ProductoVO productoVO : productosVO) {
 						JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
@@ -217,7 +217,7 @@ public class InterfazSacarProductos extends JFrame {
 								btnSeleccionar.setBackground(new Color(0, 0, 205));
 								btnSeleccionar.setForeground(Color.WHITE);
 								ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
-								controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+								controladorAlquilaProducto.modificaEstadoProducto(usuarioVO, productoVO, "Procesando");
 							}
 						});
 
@@ -275,7 +275,7 @@ public class InterfazSacarProductos extends JFrame {
 								btnSeleccionar.setBackground(new Color(0, 0, 205));
 								btnSeleccionar.setForeground(Color.WHITE);
 								ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
-								controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+								controladorAlquilaProducto.modificaEstadoProducto(usuarioVO, productoVO, "Procesando");
 							}
 						});
 
@@ -332,7 +332,7 @@ public class InterfazSacarProductos extends JFrame {
 
 				String categoria = (String) comboBoxCategoria.getSelectedItem();
 				ControladorBuscarProducto controladorBuscarProducto = new ControladorBuscarProducto();
-				ArrayList<ProductoVO> productosCat = controladorBuscarProducto.buscarProductoCategoria(categoria);
+				ArrayList<ProductoVO> productosCat = controladorBuscarProducto.buscarProductoDisponibleCategoria(categoria);
 
 				if(!categoria.equals("Todos")) {
 					panelProductos.removeAll(); // Eliminar todos los componentes del panel
@@ -378,7 +378,7 @@ public class InterfazSacarProductos extends JFrame {
 								btnSeleccionar.setBackground(new Color(0, 0, 205));
 								btnSeleccionar.setForeground(Color.WHITE);
 								ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
-								controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+								controladorAlquilaProducto.modificaEstadoProducto(usuarioVO, productoVO, "Procesando");
 							}
 						});
 
@@ -486,7 +486,7 @@ public class InterfazSacarProductos extends JFrame {
 											btnSeleccionar.setBackground(new Color(0, 0, 205));
 											btnSeleccionar.setForeground(Color.WHITE);
 											ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
-											controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+											controladorAlquilaProducto.modificaEstadoProducto(usuarioVO, productoVO, "Procesando");
 										}
 									});
 
@@ -497,7 +497,7 @@ public class InterfazSacarProductos extends JFrame {
 								panelProductos.repaint(); // Repintar el panel después de agregar los nuevos componentes
 							}
 							else {
-								ArrayList<ProductoVO> productosGen = controladorBuscarProducto.buscarProductoGenero(genero);
+								ArrayList<ProductoVO> productosGen = controladorBuscarProducto.buscarProductoDisponibleGenero(genero);
 								ArrayList<ProductoVO> prodGenyCat = new ArrayList<>();
 								for(ProductoVO productoGen : productosGen) {
 									for(ProductoVO productoCat : productosCat) {
@@ -556,7 +556,7 @@ public class InterfazSacarProductos extends JFrame {
 												btnSeleccionar.setBackground(new Color(0, 0, 205));
 												btnSeleccionar.setForeground(Color.WHITE);
 												ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
-												controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+												controladorAlquilaProducto.modificaEstadoProducto(usuarioVO, productoVO, "Procesando");
 											}
 										});
 
@@ -581,7 +581,7 @@ public class InterfazSacarProductos extends JFrame {
 		panelProductos.repaint(); // Repintar el panel
 
 		ControladorTodosLosProductos controladorTodosLosProductos = new ControladorTodosLosProductos();
-		ArrayList<ProductoVO> productosVO = controladorTodosLosProductos.obtenerProductos();
+		ArrayList<ProductoVO> productosVO = controladorTodosLosProductos.obtenerProductosDisponibles();
 		int gridY = 0;
 		for(ProductoVO productoVO : productosVO) {
 			JLabel lblProducto = new JLabel(productoVO.getNombreProducto());
@@ -621,7 +621,7 @@ public class InterfazSacarProductos extends JFrame {
 					btnSeleccionar.setBackground(new Color(0, 0, 205));
 					btnSeleccionar.setForeground(Color.WHITE);
 					ControladorAlquilaProducto controladorAlquilaProducto = new ControladorAlquilaProducto();
-					controladorAlquilaProducto.alquilarProducto(usuarioVO, productoVO);
+					controladorAlquilaProducto.modificaEstadoProducto(usuarioVO, productoVO, "Procesando");
 				}
 			});
 

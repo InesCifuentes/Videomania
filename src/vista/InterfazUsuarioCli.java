@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
+import controlador.ControladorAlquilaProducto;
 import controlador.ControladorBuscarUsuario;
 import modelo.modeloVO.AlquilerVO;
 import modelo.modeloVO.ClienteVO;
@@ -396,8 +397,8 @@ public class InterfazUsuarioCli extends JFrame {
 
 		btnCerrarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ControladorBuscarUsuario controlador = new ControladorBuscarUsuario();
-				controlador.eliminarAlquiler(usuario.getNombre());
+				ControladorAlquilaProducto controlador = new ControladorAlquilaProducto();
+				controlador.cancelarProcesamiento();
 				InterfazPrincipal principal = new InterfazPrincipal();
 				principal.setVisible(true);
 				dispose();
@@ -429,6 +430,8 @@ public class InterfazUsuarioCli extends JFrame {
       	btnTerminarOperacion.setFont(new Font("Dialog", Font.BOLD, 20));
       	btnTerminarOperacion.addActionListener(new ActionListener() {
       		public void actionPerformed(ActionEvent e) {
+				ControladorAlquilaProducto controlador = new ControladorAlquilaProducto();
+				controlador.crearAlquiler(usuario);
 				InterfazPrincipal principal = new InterfazPrincipal();
 				principal.setVisible(true);
 				dispose();
